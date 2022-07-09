@@ -1,5 +1,15 @@
     <form class="flex flex-col space-y-6 py-2">
         <h1 class="text-center text-2xl">Input</h1>
+        <div class="flex justify-center space-x-2">
+            <div class="flex flex-col">
+                <label>Start Time</label>
+                <input type="number" class="border-2" wire:model="time.start">
+            </div>
+            <div class="flex flex-col">
+                <label>End Time</label>
+                <input type="number" class="border-2" wire:model="time.end">
+            </div>
+        </div>
         <div class="flex justify-center space-x-3 mx-auto">
             <button wire:click="clear" class="py-2 px-8 bg-blue-200">Clear</button>
             <!-- <button wire:click="save" class="py-2 px-8 bg-green-200">Save</button> -->
