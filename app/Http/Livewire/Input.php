@@ -15,7 +15,7 @@ class Input extends Component
         return view('livewire.input');
     }
 
-    public function mount()
+    public function boot()
     {
         $this->task = session('tasks');
     }
@@ -23,6 +23,12 @@ class Input extends Component
     public function save()
     {
         session(['tasks' => $this->task]);
+    }
 
+    public function clear()
+    {
+        session()->forget('tasks');
+        session()->save();
+        $this->task = session('tasks') ?? [];
     }
 }
