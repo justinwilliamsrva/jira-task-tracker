@@ -8,9 +8,8 @@
                     <p>{{$this->formatTimeBy30($task['stats'])}}</p>
                 </div>
                 @foreach($task['tasks'] as $t)
-                    <div class="flex justify-around">
-                        <p>{{$t['time']}}</p>
-                        <p>{{$t['work']}}</p>
+                    <div class="ml-8">
+                        <p>{{$t['time']}} - {{$t['work']}}</p>
                     </div>
                 @endforeach
             </div>
