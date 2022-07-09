@@ -18,8 +18,8 @@
             @foreach($timeArray as $time)
                 <div class="flex justify-around bg-blue-500 p-2">
                     <h2>{{ $time }}</h2>
-                    <input type="text" wire:model="task.{{$time}}.task" >
-                    <textarea cols="30" wire:model="task.{{$time}}.work"></textarea>
+                    <input type="text" wire:model="task.{{$time}}.task" placeholder="Task #" >
+                    <textarea wire:model="task.{{$time}}.work" placeholder="Work Completed"></textarea>
                     <label>
                         Entered in Jira
                         <input type="checkbox" wire:model="task.{{$time}}.completed">

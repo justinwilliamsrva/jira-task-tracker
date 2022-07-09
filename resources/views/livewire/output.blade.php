@@ -4,7 +4,7 @@
     <div class="flex flex-col space-y-2">
 
         <div>
-            <h1 class="text-center text-xl">Add to Jira</h1>
+            <h1 class="text-center text-xl">Needs to be logged in Jira</h1>
             @forelse($tasks['incomplete'] as $key => $task)
                 <div class="border-b-2">
                     <div class="flex space-x-2">
@@ -23,7 +23,7 @@
         </div>
 
         <div>
-            <h1 class="text-center text-xl">Already Added to Jira</h1>
+            <h1 class="text-center text-xl">Already logged in Jira</h1>
             @forelse($tasks['completed'] as $key => $task)
                 <div class="">
                     <div class="flex space-x-2">
