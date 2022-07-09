@@ -29,6 +29,13 @@ class Input extends Component
     {
         session()->forget('tasks');
         session()->save();
-        $this->task = session('tasks') ?? [];
+        $this->task = [];
     }
+
+    public function updatedTask()
+    {
+        $this->save();
+    }
+
+
 }

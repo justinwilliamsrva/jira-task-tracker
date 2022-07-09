@@ -1,4 +1,4 @@
-    <form class="flex flex-col space-y-6 py-2" wire:change="save()">
+    <form class="flex flex-col space-y-6 py-2">
         <h1 class="text-center text-2xl">Input</h1>
         <div class="flex justify-center space-x-3 mx-auto">
             <button wire:click="clear" class="py-2 px-8 bg-blue-200">Clear</button>
