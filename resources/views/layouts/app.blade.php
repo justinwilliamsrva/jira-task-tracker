@@ -30,8 +30,9 @@
         <div class="container max-w-5xl mx-auto mt-10 space-y-4">
             <h1 class=" text-5xl">Jira Tracker</h1>
             <div class="flex space-x-3 mx-auto">
-                <button class="py-2 px-8 bg-blue-200"><a href="{{route('input')}}">Input</a></button>
-                <button class="py-2 px-8 bg-green-200"><a href="{{route('output')}}">Output</a></button>
+                <a href="{{route('input')}}"><button class="py-2 px-8 bg-blue-200">Input</button> </a>
+                <a href="{{route('output')}}"><button class="py-2 px-8 bg-green-200">Output</button> </a>
+
             </div>
 
 
