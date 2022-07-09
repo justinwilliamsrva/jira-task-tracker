@@ -3,8 +3,11 @@
     <div class="flex flex-col space-y-2">
         @foreach($tasks as $key => $task)
             <div class="border-2">
-                <h2>{{$key}}</h2>
-                @foreach($task as $t)
+                <div class="flex space-x-2">
+                    <h2>{{$key}}</h2>
+                    <p>{{$this->formatTimeBy30($task['stats'])}}</p>
+                </div>
+                @foreach($task['tasks'] as $t)
                     <div class="flex justify-around">
                         <p>{{$t['time']}}</p>
                         <p>{{$t['work']}}</p>

@@ -23,10 +23,26 @@ class Output extends Component
         $newArray = [];
         foreach($sessiontasks as $key => $tasks)
         {
-            $newArray[$tasks['task']][] = ['time'=>$key,'work'=> $tasks['work']];
+            if (array_key_exists($tasks['task'], $newArray)) {
+                $newArray[$tasks['task']]['stats']++ ;
+            } else {
+                $newArray[$tasks['task']]['stats'] = 1 ;
+            }
+
+            $newArray[$tasks['task']]['tasks'][] = ['time'=>$key,'work'=> $tasks['work']];
         }
 
         return $newArray;
+    }
+
+    public function formatTimeBy30($number)
+    {
+        $number = $number/2;
+
+        $whole  = floor($number);
+        $fraction  = (($number - $whole)*60);
+
+        return $whole.'h '.$fraction.'m';
     }
 
 }
