@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Livewire\Input;
+use App\Http\Livewire\Output;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Input::class)->name('input');
+Route::get('/output', Output::class)->name('output');
