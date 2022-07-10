@@ -15,7 +15,7 @@
         </div>
         <div class="space-y-2">
             @foreach($timeArray as $time)
-                <div class="{{$loop->odd ? 'bg-blue-300' : 'bg-green-200'}} grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
+                <div class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
                     <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
                     <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
                         Logged

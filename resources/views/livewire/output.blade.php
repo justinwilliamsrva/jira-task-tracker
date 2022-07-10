@@ -25,12 +25,12 @@
             <h1 class="text-center text-xl">Already logged in Jira</h1>
             @forelse($tasks['completed'] as $key => $task)
             <div class="p-2">
-                <div class="flex space-x-2">
-                    <h2>{{$key}}</h2>
-                    <p>{{$this->formatTimeBy30($task['stats'])}}</p>
+                <div>
+                <h2 class="text-md">#DEV-{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
+
                 </div>
                 @foreach($task['tasks'] as $t)
-                <div class="ml-8">
+                <div class="ml-10">
                     <p>{{$t['time']}} - {{$t['work']}}</p>
                 </div>
                 @endforeach
