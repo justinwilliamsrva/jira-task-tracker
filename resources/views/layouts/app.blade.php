@@ -28,15 +28,15 @@
 
     <div>
         <div class="container max-w-5xl mx-auto mt-10 space-y-4">
-            <h1 class=" text-5xl">Jira Tracker</h1>
-            <div class="flex space-x-3 mx-auto">
-                <a href="{{route('input')}}"><button class="py-2 px-8 bg-blue-200">Input</button> </a>
-                <a href="{{route('output')}}"><button class="py-2 px-8 bg-green-200">Output</button> </a>
+            <h1 class=" text-center text-5xl">Jira Task Tracker</h1>
+            <div class="">
+                <a class="{{ Route::currentRouteName() ==  'input' ? 'hidden' : 'py-2 px-8 bg-blue-200 hover:bg-blue-500'}}" href="{{route('input')}}"><button >Add Time</button> </a>
+                <a class="{{ Route::currentRouteName() ==  'output' ? 'hidden' : 'py-2 px-8 bg-green-200 hover:bg-green-500'}}"href="{{route('output')}}"><button>View Time</button> </a>
 
             </div>
 
 
-            <div class="border-2">
+            <div class="">
                {{ $slot }}
             </div>
         </div>
