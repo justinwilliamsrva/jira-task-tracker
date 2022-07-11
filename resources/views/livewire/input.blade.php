@@ -1,29 +1,55 @@
-    <form class="flex flex-col space-y-6 py-2">
+    <div class="flex flex-col space-y-6 py-2">
         <h1 class="text-center text-2xl">Add Time</h1>
         <div class="flex justify-center space-x-1 max-w-4xl mx-auto">
-            <div class="flex flex-col w-32 sm:w-3/4">
-                <label class="text-center">Start Time</label>
-                <input type="number" class="border-2" wire:model="time.start">
+            <div class="flex flex-col">
+                <button wire:click="increment('start')">
+                    <svg xmlns="http://www.w3.org/2000/svg"  class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" />
+                    </svg>
+                </button>
+                <button wire:click="decrement('start')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+                     </svg>
+                </button>
             </div>
-            <div class="flex flex-col w-32 sm:w-3/4">
+            <div class="flex flex-col w-32">
+                <label class="text-center">Start Time</label>
+                <input type="hidden" class="border-2" wire:model="time.start">
+                <p class="text-center text-6xl">{{$counter['start']}}</p>
+            </div>
+            <div class="flex flex-col w-32 ">
                 <label class="text-center">End Time</label>
-                <input type="number" class="border-2" wire:model="time.end">
+                <input type="hidden" class="border-2" wire:model="time.end">
+                <p class="text-center text-6xl">{{$time['end']}}</p>
+            </div>
+            <div class="flex flex-col">
+                <button wire:click="increment('end')">
+                    <svg xmlns="http://www.w3.org/2000/svg"  class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" />
+                    </svg>
+                </button>
+                <button wire:click="decrement('end')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+                     </svg>
+                </button>
             </div>
         </div>
-        <div class="flex justify-center space-x-3 mx-auto">
-            <button wire:click="clear" class="py-2 px-8 bg-blue-200">Clear</button>
+        <div x-data class="flex justify-center space-x-3 mx-auto">
+            <button wire:click="clear()" class="py-2 px-8 bg-blue-200">Clear</button>
         </div>
         <div class="space-y-2">
             @foreach($timeArray as $time)
-                <div class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
-                    <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
-                    <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
-                        Logged
-                        <input type="checkbox" wire:model="task.{{$time}}.completed">
-                    </label>
-                    <input class="col-span-1 p-1 order-2 sm:order-3 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #" >
-                    <input  class="col-span-3 p-1 order-4" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
-                </div>
+            <div class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
+                <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
+                <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
+                    Logged
+                    <input type="checkbox" wire:model="task.{{$time}}.completed">
+                </label>
+                <input class="col-span-1 p-1 order-2 sm:order-3 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
+                <input class="col-span-3 p-1 order-4" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
+            </div>
             @endforeach
         </div>
     </form>

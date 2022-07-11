@@ -7,6 +7,7 @@ use Livewire\Component;
 class Input extends Component
 {
     public array $timeArray = [];
+    public $counter = [];
     public $time = [];
     public $task = [];
     public function render()
@@ -17,8 +18,10 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->time = session('time') ?? ['start'=>8,'end'=>17];
+        $this->time = session('time') ?? ['start'=> 8,'end'=>17];
+        $this->counter = $this->time;
         $this->timeChanger();
+
     }
 
     public function save()
@@ -33,6 +36,10 @@ class Input extends Component
         session()->save();
         $this->task = [];
         $this->time = ['start'=>8,'end'=>17];
+        $this->counter = $this->time;
+        $this->timeChanger();
+
+
     }
 
     public function updatedTask()
@@ -44,8 +51,8 @@ class Input extends Component
     {
         $this->save();
 
-        $start = $this->time['start'];
-        $end = $this->time['end'];
+        $start = $this->time['start'] ?? 8;
+        $end = $this->time['end'] ?? 17;
         $timeArray = [];
         $newTimeArray = [];
         //Get every number from start to finish
@@ -65,8 +72,8 @@ class Input extends Component
 
     public function timeChanger()
     {
-        $start = $this->time['start'];
-        $end = $this->time['end'];
+        $start = $this->time['start'] ?? 8;
+        $end = $this->time['end'] ?? 17;
         $timeArray = [];
         $newTimeArray = [];
         //Get every number from start to finish
@@ -82,6 +89,21 @@ class Input extends Component
         }
 
         $this->timeArray = $newTimeArray;
+    }
+
+    public function increment($value)
+    {
+         $this->counter[$value] += 1;
+         $this->time[$value] = $this->counter[$value];
+         $this->timeChanger();
+         $this->save();
+    }
+    public function decrement($value)
+    {
+         $this->counter[$value] -= 1;
+         $this->time[$value] = $this->counter[$value];
+         $this->timeChanger();
+         $this->save();
     }
 
 
