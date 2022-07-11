@@ -1,5 +1,9 @@
 <div class="flex flex-col space-y-6 py-2">
     <h1 class="text-center text-2xl">View Time</h1>
+    <flex class="justify-center space-x-2 mx-auto">
+        <input type="text" class="border-2" wire:model="link" placeholder="{{$placeholder}}">
+        <button wire:click="save()" class="py-2 px-8 bg-blue-200">Save Link</button>
+    </flex>
     @if($tasks)
     <div class="flex flex-col space-y-2 divide-y-2">
 
@@ -8,7 +12,7 @@
             @forelse($tasks['incomplete'] as $key => $task)
             <div class="p-2">
                 <div>
-                    <h2 class="text-md">{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
+                    <h2 class="text-md"><a href="{{$realLink}}{{$key}}">{{$key}}</a>  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
                 <div class="ml-10">
@@ -26,8 +30,7 @@
             @forelse($tasks['completed'] as $key => $task)
             <div class="p-2">
                 <div>
-                <h2 class="text-md">{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
-
+                    <h2 class="text-md"><a href="{{$realLink}}{{$key}}">{{$key}}</a>  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
                 <div class="ml-10">

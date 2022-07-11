@@ -6,11 +6,18 @@ use Livewire\Component;
 
 class Output extends Component
 {
-    // public $tasks = [];
+    public $link;
+    public $placeholder;
 
     public function render()
     {
-        return view('livewire.output')->with('tasks', $this->tasks());
+        return view('livewire.output');
+    }
+    public function mount()
+    {
+        $this->placeholder = session()->has('link') ? 'Link is Saved in Session' : 'Add Your Jira Link';
+        $this->tasks = $this->tasks();
+        $this->realLink =  session('link') ?? '';
     }
 
     public function tasks()
@@ -55,5 +62,13 @@ class Output extends Component
         $fraction  = (($number - $whole) * 60);
 
         return $whole . 'h ' . $fraction . 'm';
+    }
+
+    public function save()
+    {
+        session(['link' => $this->link]);
+        $this->realLink = session('link');
+        $this->link ='';
+
     }
 }
