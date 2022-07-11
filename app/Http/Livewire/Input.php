@@ -18,7 +18,7 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start'=> 8,'end'=> 5];
+        $this->counter = session('counter') ?? ['start'=> 8,'end'=> 6];
         $this->timeChanger();
 
     }
@@ -34,7 +34,7 @@ class Input extends Component
         session()->forget('counter');
         session()->save();
         $this->task = [];
-        $this->counter =  ['start'=>8,'end'=> 5];
+        $this->counter =  ['start'=>8,'end'=> 6];
         $this->timeChanger();
 
 
@@ -48,7 +48,7 @@ class Input extends Component
     public function timeChanger()
     {
         $start = $this->counter['start'] ;
-        $end = $this->counter['end']+12;
+        $end = $this->counter['end']+11;
         $timeArray = [];
         $newTimeArray = [];
         //Get every number from start to finish

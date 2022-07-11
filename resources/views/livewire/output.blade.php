@@ -12,7 +12,7 @@
             @forelse($tasks['incomplete'] as $key => $task)
             <div class="p-2">
                 <div>
-                    <h2 class="text-md"><a href="{{$realLink}}{{$key}}"  target="_blank">{{$key}}</a>  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
+                    <h2 class="text-md"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}"  target="_blank">{{$key}}</a>  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
                 <div class="ml-10">
