@@ -18,25 +18,23 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->time = session('time') ?? ['start'=> 8,'end'=>17];
-        $this->counter = $this->time;
+        $this->counter = session('counter') ?? ['start'=> 8,'end'=>17];
         $this->timeChanger();
 
     }
 
     public function save()
     {
-        session(['tasks' => $this->task, 'time' => $this->time]);
+        session(['tasks' => $this->task, 'counter' => $this->counter]);
     }
 
     public function clear()
     {
         session()->forget('tasks');
-        session()->forget('time');
+        session()->forget('counter');
         session()->save();
         $this->task = [];
-        $this->time = ['start'=>8,'end'=>17];
-        $this->counter = $this->time;
+        $this->counter =  ['start'=>8,'end'=>17];
         $this->timeChanger();
 
 
@@ -72,8 +70,8 @@ class Input extends Component
 
     public function timeChanger()
     {
-        $start = $this->time['start'] ?? 8;
-        $end = $this->time['end'] ?? 17;
+        $start = $this->counter['start'] ?? 8;
+        $end = $this->counter['end'] ?? 17;
         $timeArray = [];
         $newTimeArray = [];
         //Get every number from start to finish
@@ -94,14 +92,13 @@ class Input extends Component
     public function increment($value)
     {
          $this->counter[$value] += 1;
-         $this->time[$value] = $this->counter[$value];
+
          $this->timeChanger();
          $this->save();
     }
     public function decrement($value)
     {
          $this->counter[$value] -= 1;
-         $this->time[$value] = $this->counter[$value];
          $this->timeChanger();
          $this->save();
     }

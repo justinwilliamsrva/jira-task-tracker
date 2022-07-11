@@ -15,13 +15,11 @@
             </div>
             <div class="flex flex-col w-32">
                 <label class="text-center">Start Time</label>
-                <input type="hidden" class="border-2" wire:model="time.start">
                 <p class="text-center text-6xl">{{$counter['start']}}</p>
             </div>
             <div class="flex flex-col w-32 ">
                 <label class="text-center">End Time</label>
-                <input type="hidden" class="border-2" wire:model="time.end">
-                <p class="text-center text-6xl">{{$time['end']}}</p>
+                <p class="text-center text-6xl">{{$counter['end']}}</p>
             </div>
             <div class="flex flex-col">
                 <button wire:click="increment('end')">
