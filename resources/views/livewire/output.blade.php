@@ -1,6 +1,6 @@
 <div class="flex flex-col space-y-6 py-2">
     <h1 class="text-center text-2xl">View Time</h1>
-    <flex class="justify-center space-x-2 mx-auto">
+    <flex class="flex flex-col sm:flex-row justify-center space-y-2 space-x-0 sm:space-x-2 sm:space-y-0 mx-auto">
         <input type="text" class="border-2 py-2" wire:model="link" placeholder="{{$placeholder}}">
         <button wire:click="save()" class="py-2 px-8 border-2 border-blue-200 bg-blue-200">Save Link</button>
     </flex>
