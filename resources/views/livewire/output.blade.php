@@ -8,7 +8,7 @@
             @forelse($tasks['incomplete'] as $key => $task)
             <div class="p-2">
                 <div>
-                    <h2 class="text-md">#DEV-{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
+                    <h2 class="text-md">{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
                 <div class="ml-10">
@@ -26,7 +26,7 @@
             @forelse($tasks['completed'] as $key => $task)
             <div class="p-2">
                 <div>
-                <h2 class="text-md">#DEV-{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
+                <h2 class="text-md">{{$key}}  |  {{$this->formatTimeBy30($task['stats'])}}</h2>
 
                 </div>
                 @foreach($task['tasks'] as $t)

@@ -18,7 +18,7 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start'=> 8,'end'=>17];
+        $this->counter = session('counter') ?? ['start'=> 8,'end'=> 5];
         $this->timeChanger();
 
     }
@@ -34,7 +34,7 @@ class Input extends Component
         session()->forget('counter');
         session()->save();
         $this->task = [];
-        $this->counter =  ['start'=>8,'end'=>17];
+        $this->counter =  ['start'=>8,'end'=> 5];
         $this->timeChanger();
 
 
@@ -45,38 +45,20 @@ class Input extends Component
         $this->save();
     }
 
-    public function updatedTime()
-    {
-        $this->save();
-
-        $start = $this->time['start'] ?? 8;
-        $end = $this->time['end'] ?? 17;
-        $timeArray = [];
-        $newTimeArray = [];
-        //Get every number from start to finish
-        do{
-            array_push($timeArray, $start);
-            $start++;
-        }while ($start <= $end);
-
-        //
-        foreach ($timeArray as $time)
-        {
-            array_push($newTimeArray, $time.':00', $time.':30');
-        }
-
-        $this->timeArray = $newTimeArray;
-    }
-
     public function timeChanger()
     {
-        $start = $this->counter['start'] ?? 8;
-        $end = $this->counter['end'] ?? 17;
+        $start = $this->counter['start'] ;
+        $end = $this->counter['end']+12;
         $timeArray = [];
         $newTimeArray = [];
         //Get every number from start to finish
         do{
-            array_push($timeArray, $start);
+            if($start > 12){
+                $insert =$start - 12;
+            }else{
+                $insert =$start;
+            }
+            array_push($timeArray, $insert);
             $start++;
         }while ($start <= $end);
 
