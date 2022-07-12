@@ -61,7 +61,13 @@ class Output extends Component
         $whole  = floor($number);
         $fraction  = (($number - $whole) * 60);
 
-        return $whole . 'h ' . $fraction . 'm';
+        if($whole == 0){
+           return $fraction . 'm';
+        } elseif ($fraction == 0 ) {
+            return $whole . 'h';
+        }else{
+            return $whole . 'h ' . $fraction . 'm';
+        }
     }
 
     public function save()
