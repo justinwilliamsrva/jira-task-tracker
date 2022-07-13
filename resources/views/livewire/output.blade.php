@@ -12,7 +12,7 @@
             @forelse($tasks['incomplete'] as $key => $task)
             <div class="p-2">
                 <div>
-                    <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}"  target="_blank">{{$key}}</a>  -  {{$this->formatTimeBy30($task['stats'])}}</h2>
+                    <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a> - {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
                 <div class="ml-10">
@@ -30,17 +30,17 @@
             @forelse($tasks['completed'] as $key => $task)
             <div class="p-2">
                 <div>
-                    <h2 class="text-lg"><a href="{{$realLink}}{{$key}}"  target="_blank">{{$key}}</a>  -  {{$this->formatTimeBy30($task['stats'])}}</h2>
+                    <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a> - {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
                 <div class="ml-10">
                     <p>{{$t['time']}} - {{$t['work']}}</p>
                 </div>
                 @endforeach
+            </div>
                 @empty
                 <div class="text-lg text-center">-Add Some Time-</div>
                 @endforelse
-            </div>
         </div>
         @else
         <div class="text-lg text-center">-Add Some Time-</div>
