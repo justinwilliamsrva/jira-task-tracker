@@ -35,7 +35,7 @@
             </div>
         </div>
         <div x-data class="flex justify-center space-x-3 mx-auto">
-            <button wire:click="clear()" class="py-2 px-8 bg-blue-200">Clear</button>
+            <button onclick="confirm('Are you sure you want to clear your time?') || event.stopImmediatePropagation()" wire:click="clear()" class="py-2 px-8 bg-blue-200">Clear</button>
         </div>
         <div class="space-y-2">
             @foreach($timeArray as $time)
