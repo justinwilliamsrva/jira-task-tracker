@@ -31,6 +31,7 @@ class Output extends Component
         $newArray['incomplete'] = [];
 
         foreach ($sessiontasks as $key => $tasks) {
+            $tasks['task']  = $tasks['task'] ?? 'Add a task #';
 
             if (!empty($tasks['completed'])) {
                 if (array_key_exists($tasks['task'], $newArray['completed'])) {
@@ -39,7 +40,7 @@ class Output extends Component
                     $newArray['completed'][$tasks['task']]['stats'] = 1;
                 }
 
-                $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work']];
+                $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
             } else {
                 if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                     $newArray['incomplete'][$tasks['task']]['stats']++;
@@ -47,7 +48,7 @@ class Output extends Component
                     $newArray['incomplete'][$tasks['task']]['stats'] = 1;
                 }
 
-                $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work']];
+                $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
             }
         }
             return $newArray;

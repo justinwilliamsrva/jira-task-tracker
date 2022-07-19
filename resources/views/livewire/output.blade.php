@@ -15,9 +15,9 @@
                     <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a> - {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
-                <div class="ml-10">
-                    <p>{{$t['time']}} - {{$t['work']}}</p>
-                </div>
+                <ul class="ml-10 list-disc">
+                    <li>{{$t['time']}} - {{$t['work']}}</li>
+                </ul>
                 @endforeach
             </div>
             @empty
@@ -33,9 +33,9 @@
                     <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a> - {{$this->formatTimeBy30($task['stats'])}}</h2>
                 </div>
                 @foreach($task['tasks'] as $t)
-                <div class="ml-10">
-                    <p>{{$t['time']}} - {{$t['work']}}</p>
-                </div>
+                <ul class="ml-10 list-disc">
+                    <li>{{$t['time']}} - {{$t['work']}}</li>
+                </ul>
                 @endforeach
             </div>
                 @empty
