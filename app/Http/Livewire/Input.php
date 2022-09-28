@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use Livewire\Component;
 
 class Input extends Component
@@ -49,23 +50,12 @@ class Input extends Component
     {
         $start = $this->counter['start'] ;
         $end = $this->counter['end']+11;
-        $timeArray = [];
         $newTimeArray = [];
-        //Get every number from start to finish
-        do{
-            if($start > 12){
-                $insert =$start - 12;
-            }else{
-                $insert =$start;
-            }
-            array_push($timeArray, $insert);
-            $start++;
-        }while ($start <= $end);
 
-        //
-        foreach ($timeArray as $time)
-        {
-            array_push($newTimeArray, $time.':00', $time.':30');
+        $startDate = Carbon::parse('2021-01-01 '.$start.':00:00');
+        $period = $startDate->toPeriod('2021-01-01 '.$end.':30:00', 30, 'minutes')->toArray();
+        foreach($period as $date) {
+            array_push($newTimeArray, Carbon::parse($date->toDateTimeString())->format('g:i A'));
         }
 
         $this->timeArray = $newTimeArray;

@@ -2,12 +2,12 @@
         <h1 class="text-center text-2xl">Add Time</h1>
         <div class="flex justify-center space-x-1 max-w-4xl mx-auto">
             <div class="flex flex-col">
-                <button class="{{$counter['start'] > 11 ? 'invisible pointer-events-none ' : '' }}" wire:click="increment('start')">
+                <button class="{{$counter['start'] > 22 ? 'invisible pointer-events-none ' : '' }}" wire:click="increment('start')">
                     <svg xmlns="http://www.w3.org/2000/svg"  class="h-10 w-10 " fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" />
                     </svg>
                 </button>
-                <button class="{{$counter['start'] < 2 ? 'invisible pointer-events-none ' : '' }}" wire:click="decrement('start')">
+                <button class="{{$counter['start'] < 1 ? 'invisible pointer-events-none ' : '' }}" wire:click="decrement('start')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
                      </svg>
