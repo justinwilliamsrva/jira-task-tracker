@@ -75,5 +75,16 @@ class Input extends Component
          $this->save();
     }
 
+    public function showStart()
+    {
+        if ($this->counter['start'] == 0) {
+            return 12;
+        }
+        if ($this->counter['start'] > 12) {
+            return $this->counter['start'] - 12;
+        }
+        return $this->counter['start'];
+    }
+
 
 }
