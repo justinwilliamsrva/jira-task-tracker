@@ -53,6 +53,15 @@ class Output extends Component
                 $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
             }
         }
+
+        // Sort Tasks by Time
+        foreach ($newArray['incomplete'] as &$tasks) {
+            array_multisort(array_map('strtotime', array_column($tasks['tasks'], 'time')), SORT_ASC, $tasks['tasks']);
+        }
+        foreach ($newArray['completed'] as &$tasks) {
+            array_multisort(array_map('strtotime', array_column($tasks['tasks'], 'time')), SORT_ASC, $tasks['tasks']);
+        }
+
             return $newArray;
 
     }
@@ -79,6 +88,5 @@ class Output extends Component
         $this->realLink = session('link');
         $this->link ='';
         $this->placeholder = 'Link is Saved in Session';
-
     }
 }
