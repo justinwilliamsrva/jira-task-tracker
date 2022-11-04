@@ -29,25 +29,40 @@ class Output extends Component
     {
         $newArray['completed'] = [];
         $newArray['incomplete'] = [];
-
         foreach ($sessiontasks as $key => $tasks) {
             if (empty($tasks['task']) && empty($tasks['work'])) {
                 continue;
             }
 
             if (!empty($tasks['completed'])) {
-                if (array_key_exists($tasks['task'], $newArray['completed'])) {
-                    $newArray['completed'][$tasks['task']]['stats']++;
+                if (substr($tasks['work'], 0, 3) == '15:') {
+                    if (array_key_exists($tasks['task'], $newArray['completed'])) {
+                        $newArray['completed'][$tasks['task']]['stats'] += .5;
+                    } else {
+                        $newArray['completed'][$tasks['task']]['stats'] = .5;
+                    }
                 } else {
-                    $newArray['completed'][$tasks['task']]['stats'] = 1;
+                    if (array_key_exists($tasks['task'], $newArray['completed'])) {
+                        $newArray['completed'][$tasks['task']]['stats']++;
+                    } else {
+                        $newArray['completed'][$tasks['task']]['stats'] = 1;
+                    }
                 }
 
                 $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
             } else {
-                if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
-                    $newArray['incomplete'][$tasks['task']]['stats']++;
+                if (substr($tasks['work'], 0, 3) == '15:') {
+                    if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
+                        $newArray['incomplete'][$tasks['task']]['stats'] += .5;
+                    } else {
+                        $newArray['incomplete'][$tasks['task']]['stats'] = .5;
+                    }
                 } else {
-                    $newArray['incomplete'][$tasks['task']]['stats'] = 1;
+                    if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
+                        $newArray['incomplete'][$tasks['task']]['stats']++;
+                    } else {
+                        $newArray['incomplete'][$tasks['task']]['stats'] = 1;
+                    }
                 }
 
                 $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
@@ -62,8 +77,7 @@ class Output extends Component
             array_multisort(array_map('strtotime', array_column($tasks['tasks'], 'time')), SORT_ASC, $tasks['tasks']);
         }
 
-            return $newArray;
-
+        return $newArray;
     }
 
     public function formatTimeBy30($number)
@@ -73,11 +87,11 @@ class Output extends Component
         $whole  = floor($number);
         $fraction  = (($number - $whole) * 60);
 
-        if($whole == 0){
-           return $fraction . 'm';
-        } elseif ($fraction == 0 ) {
+        if ($whole == 0) {
+            return $fraction . 'm';
+        } elseif ($fraction == 0) {
             return $whole . 'h';
-        }else{
+        } else {
             return $whole . 'h ' . $fraction . 'm';
         }
     }
@@ -86,7 +100,7 @@ class Output extends Component
     {
         session(['link' => $this->link]);
         $this->realLink = session('link');
-        $this->link ='';
+        $this->link = '';
         $this->placeholder = 'Link is Saved in Session';
     }
 }

@@ -19,9 +19,8 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start'=> 8,'end'=> 6];
+        $this->counter = session('counter') ?? ['start' => 8, 'end' => 6];
         $this->timeChanger();
-
     }
 
     public function save()
@@ -35,10 +34,8 @@ class Input extends Component
         session()->forget('counter');
         session()->save();
         $this->task = [];
-        $this->counter =  ['start'=>8,'end'=> 6];
+        $this->counter =  ['start' => 8, 'end' => 6];
         $this->timeChanger();
-
-
     }
 
     public function updatedTask()
@@ -48,31 +45,30 @@ class Input extends Component
 
     public function timeChanger()
     {
-        $start = $this->counter['start'] ;
-        $end = $this->counter['end']+11;
+        $start = $this->counter['start'];
+        $end = $this->counter['end'] + 11;
         $newTimeArray = [];
 
-        $startDate = Carbon::parse('2021-01-01 '.$start.':00:00');
-        $period = $startDate->toPeriod('2021-01-01 '.$end.':30:00', 30, 'minutes')->toArray();
-        foreach($period as $date) {
+        $startDate = Carbon::parse('2021-01-01 ' . $start . ':00:00');
+        $period = $startDate->toPeriod('2021-01-01 ' . $end . ':30:00', 30, 'minutes')->toArray();
+        foreach ($period as $date) {
             array_push($newTimeArray, Carbon::parse($date->toDateTimeString())->format('g:i A'));
         }
-
         $this->timeArray = $newTimeArray;
     }
 
     public function increment($value)
     {
-         $this->counter[$value] += 1;
+        $this->counter[$value] += 1;
 
-         $this->timeChanger();
-         $this->save();
+        $this->timeChanger();
+        $this->save();
     }
     public function decrement($value)
     {
-         $this->counter[$value] -= 1;
-         $this->timeChanger();
-         $this->save();
+        $this->counter[$value] -= 1;
+        $this->timeChanger();
+        $this->save();
     }
 
     public function showStart()
@@ -85,6 +81,4 @@ class Input extends Component
         }
         return $this->counter['start'];
     }
-
-
 }
