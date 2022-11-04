@@ -31,7 +31,9 @@ class Output extends Component
         $newArray['incomplete'] = [];
 
         foreach ($sessiontasks as $key => $tasks) {
-            $tasks['task']  = $tasks['task'] ?? 'Add a task #';
+            if (empty($tasks['task']) && empty($tasks['work'])) {
+                continue;
+            }
 
             if (!empty($tasks['completed'])) {
                 if (array_key_exists($tasks['task'], $newArray['completed'])) {
