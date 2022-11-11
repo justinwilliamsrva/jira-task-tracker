@@ -8,6 +8,7 @@ class Output extends Component
 {
     public $link;
     public $placeholder;
+    public $totaltime;
 
     public function render()
     {
@@ -17,6 +18,7 @@ class Output extends Component
     {
         $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? 'Link is Saved in Session' : 'Add your Jira task link ';
         $this->tasks = $this->tasks();
+        $this->totaltime = $this->formatTimeBy30($this->totaltime);
         $this->realLink =  session('link') ?? '';
     }
 
@@ -29,6 +31,8 @@ class Output extends Component
     {
         $newArray['completed'] = [];
         $newArray['incomplete'] = [];
+        $this->totaltime = 0;
+
         foreach ($sessiontasks as $key => $tasks) {
             if (empty($tasks['task']) && empty($tasks['work'])) {
                 continue;
@@ -41,12 +45,14 @@ class Output extends Component
                     } else {
                         $newArray['completed'][$tasks['task']]['stats'] = .5;
                     }
+                    $this->totaltime += .5;
                 } else {
                     if (array_key_exists($tasks['task'], $newArray['completed'])) {
                         $newArray['completed'][$tasks['task']]['stats']++;
                     } else {
                         $newArray['completed'][$tasks['task']]['stats'] = 1;
                     }
+                    $this->totaltime += 1;
                 }
 
                 $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
@@ -57,12 +63,14 @@ class Output extends Component
                     } else {
                         $newArray['incomplete'][$tasks['task']]['stats'] = .5;
                     }
+                    $this->totaltime += .5;
                 } else {
                     if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                         $newArray['incomplete'][$tasks['task']]['stats']++;
                     } else {
                         $newArray['incomplete'][$tasks['task']]['stats'] = 1;
                     }
+                    $this->totaltime += 1;
                 }
 
                 $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
