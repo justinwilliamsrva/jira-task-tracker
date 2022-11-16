@@ -118,7 +118,7 @@ class Output extends Component
         $filteredTasks = array_filter($tasks, function($task) use($key) {
             return (isset($task['completed']) ? $task['completed'] != true : true) && (isset($task['task']) ? $task['task'] == $key : false);
         });
-        // dd($filteredTasks);
+
         $loggedTasks = array_map(function ($task) {
             return [
                 'task' => $task['task'],
