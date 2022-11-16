@@ -8,7 +8,7 @@ class Output extends Component
 {
     public $link;
     public $placeholder;
-    public $totaltime;
+    public $totalTime;
 
     public function render()
     {
@@ -18,7 +18,6 @@ class Output extends Component
     {
         $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? 'Link is Saved in Session' : 'Add your Jira task link ';
         $this->tasks = $this->tasks();
-        $this->totaltime = $this->formatTimeBy30($this->totaltime);
         $this->realLink =  session('link') ?? '';
     }
 
@@ -31,8 +30,7 @@ class Output extends Component
     {
         $newArray['completed'] = [];
         $newArray['incomplete'] = [];
-        $this->totaltime = 0;
-
+        $this->totalTime = 0;
         foreach ($sessiontasks as $key => $tasks) {
             if (empty($tasks['task']) && empty($tasks['work'])) {
                 continue;
@@ -45,14 +43,14 @@ class Output extends Component
                     } else {
                         $newArray['completed'][$tasks['task']]['stats'] = .5;
                     }
-                    $this->totaltime += .5;
+                    $this->totalTime += .5;
                 } else {
                     if (array_key_exists($tasks['task'], $newArray['completed'])) {
                         $newArray['completed'][$tasks['task']]['stats']++;
                     } else {
                         $newArray['completed'][$tasks['task']]['stats'] = 1;
                     }
-                    $this->totaltime += 1;
+                    $this->totalTime += 1;
                 }
 
                 $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
@@ -63,14 +61,14 @@ class Output extends Component
                     } else {
                         $newArray['incomplete'][$tasks['task']]['stats'] = .5;
                     }
-                    $this->totaltime += .5;
+                    $this->totalTime += .5;
                 } else {
                     if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                         $newArray['incomplete'][$tasks['task']]['stats']++;
                     } else {
                         $newArray['incomplete'][$tasks['task']]['stats'] = 1;
                     }
-                    $this->totaltime += 1;
+                    $this->totalTime += 1;
                 }
 
                 $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
@@ -84,6 +82,8 @@ class Output extends Component
         foreach ($newArray['completed'] as &$tasks) {
             array_multisort(array_map('strtotime', array_column($tasks['tasks'], 'time')), SORT_ASC, $tasks['tasks']);
         }
+
+        $this->totalTime = $this->formatTimeBy30($this->totalTime);
 
         return $newArray;
     }
@@ -110,5 +110,24 @@ class Output extends Component
         $this->realLink = session('link');
         $this->link = '';
         $this->placeholder = 'Link is Saved in Session';
+    }
+
+    public function logtask($key){
+        $tasks = session('tasks');
+
+        $filteredTasks = array_filter($tasks, function($task) use($key) {
+            return (isset($task['completed']) ? $task['completed'] != true : true) && (isset($task['task']) ? $task['task'] == $key : false);
+        });
+        // dd($filteredTasks);
+        $loggedTasks = array_map(function ($task) {
+            return [
+                'task' => $task['task'],
+                'work' => $task['work'],
+                'completed' => true,
+            ];
+        }, $filteredTasks);
+        session(['tasks' => array_replace($tasks, $loggedTasks)]);
+
+        $this->tasks = $this->tasks();
     }
 }
