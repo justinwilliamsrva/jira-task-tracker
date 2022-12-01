@@ -16,7 +16,7 @@ class Output extends Component
     }
     public function mount()
     {
-        $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? 'Link is Saved in Session' : 'Add your Jira task link ';
+        $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? ' Link is Saved in Session' : ' Add your Jira task link ';
         $this->tasks = $this->tasks();
         $this->realLink =  session('link') ?? '';
     }
@@ -109,7 +109,7 @@ class Output extends Component
         session(['link' => $this->link]);
         $this->realLink = session('link');
         $this->link = '';
-        $this->placeholder = 'Link is Saved in Session';
+        $this->placeholder = ' Link is Saved in Session';
     }
 
     public function logtask($key){

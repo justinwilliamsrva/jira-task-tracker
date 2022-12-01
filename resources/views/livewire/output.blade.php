@@ -3,7 +3,7 @@
     <h2 class="text-center text-xl">Total Time<span>{{$tasks ? ' - '.$totalTime : '' }}</span></h2>
     <flex class="flex flex-col sm:flex-row justify-center space-y-2 space-x-0 sm:space-x-2 sm:space-y-0 mx-auto">
         <input type="text" class="border-2 py-2" wire:model="link" placeholder="{{$placeholder}}">
-        <button wire:click="save()" class="py-2 px-8 border-2 border-blue-200 bg-blue-200">Save Link</button>
+        <button wire:click="save()" class="py-2 px-8 border-2 border-blue-200 bg-blue-200 hover:bg-blue-500">Save Link</button>
     </flex>
     @if($tasks)
         <div class="flex flex-col space-y-2 divide-y-2">
