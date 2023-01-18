@@ -18,14 +18,13 @@ class Output extends Component
     {
         $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? ' Link is Saved in Session' : ' Add your Jira task link ';
         $this->tasks = $this->tasks();
-        $this->realLink =  session('link') ?? '';
+        $this->realLink = config('services.jira_link') ?? (session('link') ?? '');
     }
 
     public function tasks()
     {
         return session()->has('tasks') ? $this->createNewArray(session('tasks')) : [];
     }
-
     public function createNewArray($sessiontasks)
     {
         $newArray['completed'] = [];
