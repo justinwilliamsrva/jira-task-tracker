@@ -9,6 +9,8 @@ class Output extends Component
     public $link;
     public $placeholder;
     public $totalTime;
+    public $tasks;
+    public $realLink;
 
     public function render()
     {
