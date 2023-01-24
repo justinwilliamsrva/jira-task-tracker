@@ -40,7 +40,7 @@
         <div class="space-y-2">
             @foreach($timeArray as $time)
                 @if(str_contains($time, '00'))
-                    <div x-data="{ open: false }" class="space-y-2">
+                    <div x-data="{ open: '{{ !empty($task[str_replace('00','15',$time)]['task']) }}' }" class="space-y-2">
                         <div @dblclick="open=!open" class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 @elseif(str_contains($time, '30'))
-                    <div x-data="{ open: false }" class="space-y-2">
+                    <div x-data="{ open: '{{ !empty($task[str_replace('30','45',$time)]['task']) }}' }" class="space-y-2">
                         <div @dblclick="open=!open" class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
