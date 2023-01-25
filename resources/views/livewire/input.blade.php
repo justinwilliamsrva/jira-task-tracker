@@ -41,44 +41,64 @@
             @foreach($timeArray as $time)
                 @if(str_contains($time, '00'))
                     <div x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('00','15',$time)]['task']) }}'}" class="space-y-2">
-                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
+                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-2 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
-                            <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
+                            <label class="col-span-1 sm:col-span-1 p-1 order-3 sm:order-2 text-center sm:text-left">
                                 Logged
                                 <input type="checkbox" wire:model="task.{{$time}}.completed">
                             </label>
-                            <input class="col-span-1 p-1 order-2 sm:order-3 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
-                            <input class="col-span-3 p-1 order-4" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
+                            <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{$time}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
+                            </div>
+                            <input class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
+                            <input class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
-                        <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
+                        <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 sm:grid-cols-4 gap-y-2 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ str_replace('00','15',$time) }}</h2>
-                            <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
+                            <label class="col-span-1 sm:col-span-1 p-1 order-3 sm:order-2 text-center sm:text-left">
                                 Logged
                                 <input type="checkbox" wire:model="task.{{str_replace('00','15',$time)}}.completed">
                             </label>
-                            <input class="col-span-1 p-1 order-2 sm:order-3 " type="text" wire:model="task.{{str_replace('00','15',$time)}}.task" placeholder="Task #">
-                            <input class="col-span-3 p-1 order-4" wire:model="task.{{str_replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
+                            <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{Str::replace('00','15',$time)}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
+                            </div>
+                            <input class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{str_replace('00','15',$time)}}.task" placeholder="Task #">
+                            <input class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{str_replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
                         </div>
                     </div>
                 @elseif(str_contains($time, '30'))
-                    <div x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[str_replace('30','45',$time)]['task']) }}' }" class="space-y-2">
-                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
+                    <div x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('30','45',$time)]['task']) }}'}" class="space-y-2">
+                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-blue-400 grid grid-cols-3 sm:grid-cols-4 gap-y-2 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ $time }}</h2>
-                            <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
+                            <label class="col-span-1 sm:col-span-1 p-1 order-3 sm:order-2 text-center sm:text-left">
                                 Logged
                                 <input type="checkbox" wire:model="task.{{$time}}.completed">
                             </label>
-                            <input class="col-span-1 p-1 order-2 sm:order-3 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
-                            <input class="col-span-3 p-1 order-4" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
+                            <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{$time}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
+                            </div>
+                            <input class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
+                            <input class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
-                        <div x-show="open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-green-400 grid grid-cols-3 sm:grid-cols-4 gap-y-1 sm:gap-x-1 p-2 rounded">
+                        <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 sm:grid-cols-4 gap-y-2 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ str_replace('30','45',$time) }}</h2>
-                            <label class="col-span-1 sm:col-span-3 p-1 order-3 sm:order-2 text-center sm:text-left">
+                            <label class="col-span-1 sm:col-span-1 p-1 order-3 sm:order-2 text-center sm:text-left">
                                 Logged
-                                <input type="checkbox" wire:model="task.{{str_replace('30','45',$time) }}.completed">
+                                <input type="checkbox" wire:model="task.{{str_replace('30','45',$time)}}.completed">
                             </label>
-                            <input class="col-span-1 p-1 order-2 sm:order-3 " type="text" wire:model="task.{{str_replace('30','45',$time) }}.task" placeholder="Task #">
-                            <input class="col-span-3 p-1 order-4" wire:model="task.{{str_replace('30','45',$time) }}.work" placeholder="Work Completed"></input>
+                            <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{Str::replace('30','45',$time)}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
+                            </div>
+                            <input class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{str_replace('30','45',$time)}}.task" placeholder="Task #">
+                            <input class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{str_replace('30','45',$time)}}.work" placeholder="Work Completed"></input>
                         </div>
                     </div>
                 @endif

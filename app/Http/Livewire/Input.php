@@ -81,4 +81,10 @@ class Input extends Component
         }
         return $this->counter['start'];
     }
+
+    public function clearSingle($time)
+    {
+        session()->forget("tasks.{$time}");
+        $this->task = session('tasks') ?? [];
+    }
 }
