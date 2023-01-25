@@ -48,12 +48,12 @@
                                 <input type="checkbox" wire:model="task.{{$time}}.completed">
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{$time}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{$loop->iteration}})">Copy<span>&#8595</span></button>
                             </div>
-                            <input class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
-                            <input class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
+                            <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
+                            <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
                         <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 sm:grid-cols-4 gap-y-2 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ str_replace('00','15',$time) }}</h2>
@@ -62,7 +62,7 @@
                                 <input type="checkbox" wire:model="task.{{str_replace('00','15',$time)}}.completed">
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{Str::replace('00','15',$time)}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{Str::replace('00','15',$time)}}')">Clear</button>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
                             </div>
@@ -79,12 +79,12 @@
                                 <input type="checkbox" wire:model="task.{{$time}}.completed">
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{$time}}')">Clear</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Copy</button>
+                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{$loop->iteration}})">Copy<span>&#8595</span></button>
                             </div>
-                            <input class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
-                            <input class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
+                            <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
+                            <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
                         <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 sm:grid-cols-4 gap-y-2 sm:gap-x-1 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center sm:text-left order-1 text-lg">{{ str_replace('30','45',$time) }}</h2>
@@ -105,3 +105,37 @@
             @endforeach
         </div>
     </form>
+<script>
+function copyFromAbove(id) {
+    if (id == 0) {
+        alert('Nothing to Copy');
+        return;
+    }
+    copyId = id-1;
+
+    var copyTask = document.getElementById("task-"+copyId);
+    var copyDesc = document.getElementById("desc-"+copyId);
+
+    // Assign Task
+    copyTask.select();
+    copyTask.setSelectionRange(0, 99999); // For mobile devices
+    var retVal = document.execCommand("copy");
+    var currentTask = document.getElementById("task-"+id);
+    currentTask.value = copyTask.value;
+
+    // Assign Desc
+    copyDesc.select();
+    copyDesc.setSelectionRange(0, 99999); // For mobile devices
+    var retVal = document.execCommand("copy");
+    var currentDesc = document.getElementById("desc-"+id);
+    currentDesc.value = copyDesc.value;
+
+    // Call an event to get Livewire to send info to backend
+    currentTask.dispatchEvent(new Event('input'));
+    currentDesc.dispatchEvent(new Event('input'));
+
+    //Focus on Current Task
+    currentDesc.select();
+    currentDesc.setSelectionRange(0, 99999);
+}
+</script>
