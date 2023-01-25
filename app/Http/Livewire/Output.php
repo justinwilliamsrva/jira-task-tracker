@@ -113,7 +113,7 @@ class Output extends Component
         $this->placeholder = ' Link is Saved in Session';
     }
 
-    public function logtask($key){
+    public function logTask($key){
         $tasks = session('tasks');
 
         $filteredTasks = array_filter($tasks, function($task) use($key) {

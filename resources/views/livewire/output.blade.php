@@ -16,7 +16,7 @@
                                 <a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
                                 - {{$this->formatTimeBy30($task['stats'])}}
                                 -
-                                <button class="bg-green-200 hover:bg-green-500 px-2 bold rounded" onclick="confirm('Are you sure you want to log task #{{$key}} ?') || event.stopImmediatePropagation()" wire:click="logtask({{$key}})">Log</button>
+                                <button class="bg-green-200 hover:bg-green-500 px-2 bold rounded" onclick="confirm('Are you sure you want to log task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="logTask('{{$key}}')">Log</button>
                             </h2>
                         </div>
                         @foreach($task['tasks'] as $t)

@@ -34,7 +34,7 @@ class Input extends Component
         session()->forget('counter');
         session()->save();
         $this->task = [];
-        $this->counter =  ['start' => 8, 'end' => 6];
+        $this->counter = ['start' => 8, 'end' => 6];
         $this->timeChanger();
     }
 
