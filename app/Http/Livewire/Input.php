@@ -36,6 +36,7 @@ class Input extends Component
         $this->task = [];
         $this->counter = ['start' => 8, 'end' => 6];
         $this->timeChanger();
+        $this->dispatchBrowserEvent('clear');
     }
 
     public function updatedTask()
