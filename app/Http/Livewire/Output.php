@@ -38,7 +38,7 @@ class Output extends Component
             }
 
             if (!empty($tasks['completed'])) {
-                if (isset($tasks['work']) && substr($tasks['work'], 0, 3) == '15:') {
+                if (isset($tasks['work']) && !empty($tasks['fifteen'])) {
                     if (array_key_exists($tasks['task'], $newArray['completed'])) {
                         $newArray['completed'][$tasks['task']]['stats'] += .5;
                     } else {
@@ -54,9 +54,9 @@ class Output extends Component
                     $this->totalTime += 1;
                 }
 
-                $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
+                $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? '', 'fifteen' => $tasks['fifteen'] ?? false ];
             } else {
-                if (isset($tasks['work']) && substr($tasks['work'], 0, 3) == '15:') {
+                if (isset($tasks['work']) && !empty($tasks['fifteen'])) {
                     if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                         $newArray['incomplete'][$tasks['task']]['stats'] += .5;
                     } else {
@@ -72,7 +72,7 @@ class Output extends Component
                     $this->totalTime += 1;
                 }
 
-                $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? ''];
+                $newArray['incomplete'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? '', 'fifteen' => $tasks['fifteen'] ?? false];
             }
         }
 

@@ -49,8 +49,11 @@
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
-                                <button :class="{{ $loop->iteration == 1 }} ? 'opacity-50 cursor-not-allowed' : ''" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
+                                <label class="relative flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
+                                    <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
+                                </label>
+                                <button :class="{{ $loop->iteration == 1 }} ? 'opacity-30 cursor-not-allowed' : ''" class="bg-white text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
@@ -63,7 +66,10 @@
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{Str::replace('00','15',$time)}}')">Clear</button>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <label class="relative flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model="task.{{str_replace('00','15',$time)}}.fifteen" class="vis-hidden">
+                                    <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
+                                </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{str_replace('00','15',$time)}}.task" placeholder="Task #">
@@ -80,7 +86,10 @@
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <label class="relative flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
+                                    <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
+                                </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }})">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
@@ -94,7 +103,10 @@
                             </label>
                             <div class="col-span-3 sm:col-span-2 order-5 sm:order-3 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{Str::replace('30','45',$time)}}')">Clear</button>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow opacity-50 cursor-not-allowed" disabled>Fifteen</button>
+                                <label class="relative flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model="task.{{str_replace('30','45',$time)}}.fifteen" class="vis-hidden">
+                                    <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
+                                </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{str_replace('30','45',$time)}}.task" placeholder="Task #">
@@ -158,5 +170,8 @@ function getCopyIdFromThirtyMinuteInput(id) {
 }
 function getCopyIdFromFifteenMinuteInput(id) {
    return id - 0.5;
+}
+function copyText(){
+    return "open_{{Str::replace('-', '_', Str::slug($time))}}=true";
 }
 </script>

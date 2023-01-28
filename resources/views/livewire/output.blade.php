@@ -21,7 +21,11 @@
                         </div>
                         @foreach($task['tasks'] as $t)
                             <ul class="ml-10 list-disc">
-                                <li>{{$t['time']}} - {{$t['work']}}</li>
+                                @if ($t['fifteen'])
+                                    <li>{{$t['time']}} - 15: {{$t['work']}}</li>
+                                @else
+                                    <li>{{$t['time']}} - {{$t['work']}}</li>
+                                @endif
                             </ul>
                         @endforeach
                     </div>
@@ -38,9 +42,13 @@
                                 <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a> - {{$this->formatTimeBy30($task['stats'])}}</h2>
                             </div>
                             @foreach($task['tasks'] as $t)
-                                <ul class="ml-10 list-disc">
+                            <ul class="ml-10 list-disc">
+                                @if ($t['fifteen'])
+                                    <li>{{$t['time']}} - 15: {{$t['work']}}</li>
+                                @else
                                     <li>{{$t['time']}} - {{$t['work']}}</li>
-                                </ul>
+                                @endif
+                            </ul>
                             @endforeach
                         </div>
                     @empty
