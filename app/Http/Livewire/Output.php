@@ -125,6 +125,7 @@ class Output extends Component
                 'task' => $task['task'],
                 'work' => $task['work'] ?? '',
                 'completed' => true,
+                'fifteen' => $task['fifteen'] ?? false,
             ];
         }, $filteredTasks);
         session(['tasks' => array_replace($tasks, $loggedTasks)]);
@@ -144,6 +145,7 @@ class Output extends Component
                 'task' => $task['task'],
                 'work' => $task['work'] ?? '',
                 'completed' => false,
+                'fifteen' => $task['fifteen'] ?? false,
             ];
         }, $filteredTasks);
         session(['tasks' => array_replace($tasks, $loggedTasks)]);
