@@ -136,7 +136,7 @@ class Output extends Component
         $tasks = session('tasks');
 
         $filteredTasks = array_filter($tasks, function($task) use($key) {
-            return ($task['completed']) && (isset($task['task']) ? $task['task'] == $key : false);
+            return (!empty($task['completed'])) && (isset($task['task']) ? $task['task'] == $key : false);
         });
 
         $loggedTasks = array_map(function ($task) {
