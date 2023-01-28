@@ -13,21 +13,21 @@
                     <div class="p-2">
                         <div>
                             <h2 class="text-lg">
-                                <a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
-                                - {{$this->formatTimeBy30($task['stats'])}}
-                                -
-                                <button class="bg-green-200 hover:bg-green-500 px-2 bold rounded" onclick="confirm('Are you sure you want to log task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="logTask('{{$key}}')">Log</button>
+                                <a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}} bold" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
+                                - <span title="Copy" id="incom-time-{{$loop->iteration}}" class="time cursor-pointer px-2 border-2 hover:border-blue-200 hover:shadow hover:bg-blue-200 bold rounded" data-clipboard-target="#incom-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
+                                - <button class="btn bg-blue-200 hover:bg-blue-500 px-2 bold rounded" data-clipboard-target="#incom-task-{{$loop->iteration}}">Copy<span>&#8595</span></button>
+                                - <button class="bg-green-200 hover:bg-green-500 px-2 bold rounded" onclick="confirm('Are you sure you want to log task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="logTask('{{$key}}')">Log</button>
                             </h2>
                         </div>
-                        @foreach($task['tasks'] as $t)
-                            <ul class="ml-10 list-disc">
+                        <ul id="incom-task-{{$loop->iteration}}" class="ml-10 list-disc">
+                            @foreach($task['tasks'] as $t)
                                 @if ($t['fifteen'])
                                     <li>{{$t['time']}} - 15: {{$t['work']}}</li>
                                 @else
                                     <li>{{$t['time']}} - {{$t['work']}}</li>
                                 @endif
-                            </ul>
-                        @endforeach
+                            @endforeach
+                        </ul>
                     </div>
                 @empty
                     <div class="text-lg text-center">-Add Some Time-</div>
@@ -39,17 +39,21 @@
                     @forelse($tasks['completed'] as $key => $task)
                         <div class="p-2">
                             <div>
-                                <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}}" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a> - {{$this->formatTimeBy30($task['stats'])}}</h2>
+                                <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}} bold" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
+                                    - <span title="Copy" id="com-time-{{$loop->iteration}}" class="time cursor-pointer px-2 border-2 hover:border-blue-200 hover:shadow hover:bg-blue-200 bold rounded" data-clipboard-target="#com-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
+                                    - <button class="btn bg-blue-200 hover:bg-blue-500 px-2 bold rounded" data-clipboard-target="#com-task-{{$loop->iteration}}">Copy<span>&#8595</span></button>
+                                    - <button class="bg-red-200 hover:bg-red-500 px-2 bold rounded" onclick="confirm('Are you sure you want to unlog task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="unLogTask('{{$key}}')">Unlog</button>
+                                </h2>
                             </div>
-                            @foreach($task['tasks'] as $t)
-                            <ul class="ml-10 list-disc">
-                                @if ($t['fifteen'])
-                                    <li>{{$t['time']}} - 15: {{$t['work']}}</li>
-                                @else
-                                    <li>{{$t['time']}} - {{$t['work']}}</li>
-                                @endif
+                            <ul id="com-task-{{$loop->iteration}}"class="ml-10 list-disc">
+                                @foreach($task['tasks'] as $t)
+                                    @if ($t['fifteen'])
+                                        <li>{{$t['time']}} - 15: {{$t['work']}}</li>
+                                    @else
+                                        <li>{{$t['time']}} - {{$t['work']}}</li>
+                                    @endif
+                                @endforeach
                             </ul>
-                            @endforeach
                         </div>
                     @empty
                         <div class="text-lg text-center">-Add Some Time-</div>
@@ -62,3 +66,8 @@
 
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+    <script type="text/javascript">
+        var Clipboard = new ClipboardJS('.btn');
+        var clipboard = new ClipboardJS('.time');
+    </script>

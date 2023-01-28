@@ -123,8 +123,27 @@ class Output extends Component
         $loggedTasks = array_map(function ($task) {
             return [
                 'task' => $task['task'],
-                'work' => $task['work'],
+                'work' => $task['work'] ?? '',
                 'completed' => true,
+            ];
+        }, $filteredTasks);
+        session(['tasks' => array_replace($tasks, $loggedTasks)]);
+
+        $this->tasks = $this->tasks();
+    }
+
+    public function unLogTask($key){
+        $tasks = session('tasks');
+
+        $filteredTasks = array_filter($tasks, function($task) use($key) {
+            return ($task['completed']) && (isset($task['task']) ? $task['task'] == $key : false);
+        });
+
+        $loggedTasks = array_map(function ($task) {
+            return [
+                'task' => $task['task'],
+                'work' => $task['work'] ?? '',
+                'completed' => false,
             ];
         }, $filteredTasks);
         session(['tasks' => array_replace($tasks, $loggedTasks)]);
