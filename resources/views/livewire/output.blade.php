@@ -14,7 +14,7 @@
                         <div>
                             <h2 class="text-lg">
                                 <a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}} bold" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
-                                - <span title="Copy" id="incom-time-{{$loop->iteration}}" class="time cursor-pointer px-2 border-2 hover:border-blue-200 hover:shadow hover:bg-blue-200 bold rounded" data-clipboard-target="#incom-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
+                                - <span title="Copy" id="incom-time-{{$loop->iteration}}" class="time cursor-pointer border-2 border-blue-200 bg-blue-200 hover:bg-blue-500 hover:border-blue-500 px-2 bold rounded" data-clipboard-target="#incom-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
                                 - <button class="btn bg-blue-200 hover:bg-blue-500 px-2 bold rounded" data-clipboard-target="#incom-task-{{$loop->iteration}}">Copy<span>&#8595</span></button>
                                 - <button class="bg-green-200 hover:bg-green-500 px-2 bold rounded" onclick="confirm('Are you sure you want to log task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="logTask('{{$key}}')">Log</button>
                             </h2>
@@ -40,7 +40,7 @@
                         <div class="p-2">
                             <div>
                                 <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}} bold" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
-                                    - <span title="Copy" id="com-time-{{$loop->iteration}}" class="time cursor-pointer px-2 border-2 hover:border-blue-200 hover:shadow hover:bg-blue-200 bold rounded" data-clipboard-target="#com-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
+                                    - <span title="Copy" id="com-time-{{$loop->iteration}}" class="time cursor-pointer border-2 border-blue-200 bg-blue-200 hover:bg-blue-500 hover:border-blue-500 px-2 bold rounded" data-clipboard-target="#com-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
                                     - <button class="btn bg-blue-200 hover:bg-blue-500 px-2 bold rounded" data-clipboard-target="#com-task-{{$loop->iteration}}">Copy<span>&#8595</span></button>
                                     - <button class="bg-red-200 hover:bg-red-500 px-2 bold rounded" onclick="confirm('Are you sure you want to unlog task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="unLogTask('{{$key}}')">Unlog</button>
                                 </h2>
