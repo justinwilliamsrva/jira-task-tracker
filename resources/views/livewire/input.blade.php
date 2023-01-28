@@ -53,7 +53,7 @@
                                     <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button :class="{{ $loop->iteration == 1 }} ? 'opacity-30 cursor-not-allowed' : ''" class="bg-white text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
+                                <button :class="{{ $loop->iteration == 1 }} ? 'invisible' : ''" class="bg-white text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2 sm:order-4 " type="text" wire:model="task.{{$time}}.task" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4 sm:order-5" wire:model="task.{{$time}}.work" placeholder="Work Completed"></input>
