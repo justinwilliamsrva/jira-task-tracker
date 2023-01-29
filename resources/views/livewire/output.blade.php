@@ -61,13 +61,7 @@
             </div>
         @else
             <div class="text-lg text-center">-Add Some Time-</div>
-
         @endif
 
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
-    <script type="text/javascript">
-        var Clipboard = new ClipboardJS('.btn');
-        var clipboard = new ClipboardJS('.time');
-    </script>

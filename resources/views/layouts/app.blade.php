@@ -35,6 +35,11 @@
     </div>
     @livewireScripts
 </body>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+<script type="text/javascript">
+        var Clipboard = new ClipboardJS('.btn');
+        var clipboard = new ClipboardJS('.time');
+</script>
 <script>
 window.onscroll = function() {
     var changePage = document.getElementById("change-page");
@@ -46,6 +51,5 @@ window.onscroll = function() {
         changePage.classList.remove("fixed", "top-0.5");
     }
 }
-
 </script>
 </html>

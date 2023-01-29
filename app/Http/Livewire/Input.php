@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class Input extends Component
@@ -12,6 +13,8 @@ class Input extends Component
     public $counter = [];
     public $time = [];
     public $task = [];
+    public $taskTable = [];
+    public $taskTitles = [];
     public function render()
     {
         return view('livewire.input');
@@ -21,18 +24,37 @@ class Input extends Component
     {
         $this->task = session('tasks') ?? [];
         $this->counter = session('counter') ?? ['start' => 8, 'end' => 6];
+        $this->taskTable = session('taskTable') ?? [];
+        $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
     }
 
     public function save()
     {
-        session(['tasks' => $this->task, 'counter' => $this->counter]);
+
+        $this->taskTable = array_filter($this->taskTable, function($task) {return $task['locked'];});
+        foreach($this->task as $task) {
+            if (!empty($task['task'])) {
+                $this->taskTable[$task['task']]['locked'] = $this->taskTable[$task['task']]['locked'] ?? false;
+                $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? '';
+            }
+        }
+
+        session(['tasks' => $this->task, 'counter' => $this->counter, 'taskTable' => $this->taskTable, 'taskTitles' => $this->taskTitles]);
     }
 
-    public function clear()
+    public function clear($scope = null)
     {
         session()->forget('tasks');
         session()->forget('counter');
+        $this->taskTable = array_filter($this->taskTable, function($task) {return $task['locked'];});
+        session(['taskTitles' => $this->taskTitles]);
+        if ($scope == 'All') {
+            session()->forget('taskTable');
+            session()->forget('taskTitles');
+            $this->taskTable = [];
+            $this->taskTitles = [];
+        }
         session()->save();
         $this->task = [];
         $this->counter = ['start' => 8, 'end' => 6];
@@ -44,7 +66,14 @@ class Input extends Component
     {
         $this->save();
     }
-
+    public function updatedTaskTable()
+    {
+        $this->save();
+    }
+    public function updatedTaskTitles()
+    {
+        $this->save();
+    }
     public function timeChanger()
     {
         $start = $this->counter['start'];
@@ -87,7 +116,9 @@ class Input extends Component
     public function clearSingle($time)
     {
         session()->forget("tasks.{$time}");
-        $this->task = session('tasks') ?? [];
+        Arr::forget($this->task, $time);
+        $this->save();
+
     }
 
     public function setFifteenMinutes($time, $mainNum, $replaceNum)
@@ -96,5 +127,13 @@ class Input extends Component
             $this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen'] = true;
             session()->save();
         }
+    }
+
+    public function lockAll()
+    {
+        $this->taskTable = Arr::map($this->taskTable , function ($value) {
+            $value['locked'] = true;
+            return $value;
+        });
     }
 }
