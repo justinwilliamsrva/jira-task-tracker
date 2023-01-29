@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class Input extends Component
 {
@@ -87,5 +88,13 @@ class Input extends Component
     {
         session()->forget("tasks.{$time}");
         $this->task = session('tasks') ?? [];
+    }
+
+    public function setFifteenMinutes($time, $mainNum, $replaceNum)
+    {
+        if (!isset($this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen'])) {
+            $this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen'] = true;
+            session()->save();
+        }
     }
 }

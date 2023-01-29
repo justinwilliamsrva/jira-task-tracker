@@ -41,7 +41,7 @@
             @foreach($timeArray as $time)
                 @if(str_contains($time, '00'))
                     <div id="iteration-{{ $loop->iteration }}" x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('00','15',$time)]['task']) }}'}" x-on:clear.window="open_{{Str::replace('-', '_', Str::slug($time))}} = false" class="space-y-2">
-                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
+                    <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','00','15')" class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
@@ -78,7 +78,7 @@
                     </div>
                 @elseif(str_contains($time, '30'))
                     <div id="iteration-{{ $loop->iteration }}" x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('30','45',$time)]['task']) }}'}" x-on:clear.window="open_{{Str::replace('-', '_', Str::slug($time))}} = false" class="space-y-2">
-                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
+                        <div @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','30','45')" class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
                             <h2 class="col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
