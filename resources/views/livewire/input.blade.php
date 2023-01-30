@@ -60,7 +60,7 @@
                                         <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-2 border border-gray-400 rounded shadow">Lock</span>
                                     </label>
                                 </td>
-                                <td class="text-left"><button id="taskName-{{$loop->iteration}}" data-clipboard-target="#taskName-{{$loop->iteration}}" class="btn bg-gray-200 px-2 rounded hover:bg-gray-300">{{ $taskName }}</button></td>
+                                <td class="text-left"><button id="taskName-{{$loop->iteration}}" data-clipboard-target="#taskName-{{$loop->iteration}}" class="btn bg-gray-200 px-2 rounded hover:bg-gray-300" wire:click="copyPasteTask('{{ $taskName }}')"> {{ $taskName   }}</button></td>
                                 <td class="text-left"><input class="w-full" type="text" wire:model.debounce.500ms="taskTitles.{{$taskName}}"/></td>
                             </tr>
                         @empty
@@ -87,25 +87,25 @@
                                 </label>
                                 <button :class="{{ $loop->iteration == 1 }} ? 'invisible' : ''" class="bg-white text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }}, {{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
                             </div>
-                            <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" placeholder="Task #">
+                            <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" wire:click="taskToPasteTo('{{$time}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
                         <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 gap-y-2 p-2 rounded" @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}">
-                            <h2 class="col-span-1 p-1 text-center order-1 text-lg">{{ str_replace('00','15',$time) }}</h2>
+                            <h2 class="col-span-1 p-1 text-center order-1 text-lg">{{ Str::replace('00','15',$time) }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
-                                <input type="checkbox" wire:model.debounce.500ms="task.{{str_replace('00','15',$time)}}.completed">
+                                <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.completed">
                             </label>
                             <div class="col-span-3 order-5 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{Str::replace('00','15',$time)}}')">Clear</button>
                                 <label class="relative flex items-center cursor-pointer">
-                                    <input type="checkbox" wire:model.debounce.500ms="task.{{str_replace('00','15',$time)}}.fifteen" class="vis-hidden">
+                                    <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }}, {{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
                             </div>
-                            <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{str_replace('00','15',$time)}}.task" placeholder="Task #">
-                            <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{str_replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
+                            <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('30','45',$time)}}')" placeholder="Task #">
+                            <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
                         </div>
                     </div>
                 @elseif(str_contains($time, '30'))
@@ -124,25 +124,25 @@
                                 </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }}, {{ $loop->iteration }})">Paste<span>&#8595</span></button>
                             </div>
-                            <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" placeholder="Task #">
+                            <input id="task-{{ $loop->iteration }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" wire:click="taskToPasteTo('{{$time}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
                         <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 gap-y-2 p-2 rounded"  @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}">
-                            <h2 class="col-span-1 p-1 text-center order-1 text-lg">{{ str_replace('30','45',$time) }}</h2>
+                            <h2 class="col-span-1 p-1 text-center order-1 text-lg">{{ Str::replace('30','45',$time) }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
-                                <input type="checkbox" wire:model.debounce.500ms="task.{{str_replace('30','45',$time)}}.completed">
+                                <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.completed">
                             </label>
                             <div class="col-span-3 order-5 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow " wire:click="clearSingle('{{Str::replace('30','45',$time)}}')">Clear</button>
                                 <label class="relative flex items-center cursor-pointer">
-                                    <input type="checkbox" wire:model.debounce.500ms="task.{{str_replace('30','45',$time)}}.fifteen" class="vis-hidden">
+                                    <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }}, {{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
                             </div>
-                            <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{str_replace('30','45',$time)}}.task" placeholder="Task #">
-                            <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{str_replace('30','45',$time)}}.work" placeholder="Work Completed"></input>
+                            <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('30','45',$time)}}')" placeholder="Task #">
+                            <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.work" placeholder="Work Completed"></input>
                         </div>
                     </div>
                 @endif

@@ -15,6 +15,7 @@ class Input extends Component
     public $task = [];
     public $taskTable = [];
     public $taskTitles = [];
+    public $taskForCopying = '';
     public function render()
     {
         return view('livewire.input');
@@ -135,5 +136,16 @@ class Input extends Component
             $value['locked'] = true;
             return $value;
         });
+    }
+
+    public function copyPasteTask($taskName)
+    {
+        $this->task[$this->taskForCopying]['task'] = $taskName;
+        $this->save();
+    }
+
+    public function taskToPasteTo($time)
+    {
+        $this->taskForCopying = $time;
     }
 }
