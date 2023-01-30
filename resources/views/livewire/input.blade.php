@@ -43,25 +43,25 @@
             </div>
             <div class="flex-1 p-2">
                 <h1 class="text-center text-2xl">Task List</h1>
-                <table class="table-fixed w-full p-2">
+                <table class="table-fixed min-w-full p-2">
                     <thead class="text-gray-700 uppercase">
                         <tr class="">
-                            <th class="bg-gray-50 w-[15%] text-left"><button class=" bg-gray-200 px-2 rounded hover:bg-gray-300" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
-                            <th class="bg-gray-50 w-[25%] text-left">Task #</th>
-                            <th class="bg-gray-50">Task Title</th>
+                            <th class="bg-gray-50 w-[15%] text-left"><button class="w-full bg-gray-200 px-2 rounded hover:bg-gray-300 border border-gray-200 text-center" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
+                            <th class="bg-gray-50 w-[25%] text-center">Task #</th>
+                            <th class="bg-gray-50">Tasks</th>
                         </tr>
                     </thead>
                     <tbody class="">
                         @forelse($taskTable as $taskName => $taskTitle)
                             <tr class="border-b">
                                 <td class="">
-                                    <label class="relative flex items-center justify-start ml-1 cursor-pointer">
+                                    <label class="relative flex items-center justify-start cursor-pointer">
                                         <input type="checkbox" wire:model="taskTable.{{$taskName}}.locked" class="vis-hidden">
-                                        <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-2 border border-gray-400 rounded shadow">Lock</span>
+                                        <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-2 border border-gray-400 rounded shadow w-full text-center">Lock</span>
                                     </label>
                                 </td>
-                                <td class="text-left"><button id="taskName-{{$loop->iteration}}" data-clipboard-target="#taskName-{{$loop->iteration}}" class="btn bg-gray-200 px-2 rounded hover:bg-gray-300" wire:click="copyPasteTask('{{ $taskName }}')"> {{ $taskName   }}</button></td>
-                                <td class="text-left"><input class="w-full" type="text" wire:model.debounce.500ms="taskTitles.{{$taskName}}"/></td>
+                                <td class="text-center"><button id="taskName-{{$loop->iteration}}" data-clipboard-target="#taskName-{{$loop->iteration}}" class="btn bg-gray-200 border-gray-200 px-2 rounded hover:bg-gray-300" wire:click="copyPasteTask('{{ $taskName }}')"> {{ $taskName   }}</button></td>
+                                <td class="text-left"><input class="w-full border-gray-200" type="text" wire:model.debounce.500ms="taskTitles.{{$taskName}}"/></td>
                             </tr>
                         @empty
                         @endforelse
