@@ -11,6 +11,7 @@ class Output extends Component
     public $totalTime;
     public $tasks;
     public $realLink;
+    public $taskFormat;
 
     public function render()
     {
@@ -19,20 +20,27 @@ class Output extends Component
     public function mount()
     {
         $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? ' Link is Saved in Session' : ((config('services.jira_link')) ? ' Link is Saved in ENV' : ' Add your Jira task link ');
+        $this->taskFormat = session('taskFormat') ?? 'time';
         $this->tasks = $this->tasks();
         $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
     }
 
     public function tasks()
     {
-        return session()->has('tasks') ? $this->createNewArray(session('tasks')) : [];
+        if (!session()->has('tasks')) {
+            return [];
+        } elseif ($this->taskFormat == 'task') {
+            return $this->createTaskFormat(session('tasks'));
+        }
+
+        return $this->createTimeFormat(session('tasks'));
     }
-    public function createNewArray($sessiontasks)
+    public function createTimeFormat($sessionTasks)
     {
         $newArray['completed'] = [];
         $newArray['incomplete'] = [];
         $this->totalTime = 0;
-        foreach ($sessiontasks as $key => $tasks) {
+        foreach ($sessionTasks as $key => $tasks) {
             if (empty($tasks['task']) && empty($tasks['work'])) {
                 continue;
             }
@@ -87,6 +95,42 @@ class Output extends Component
         $this->totalTime = $this->formatTimeBy30($this->totalTime);
 
         return $newArray;
+    }
+
+    public function createTaskFormat($sessionTasks)
+    {
+        $formattedSessionTasks['completed'] = [];
+        $formattedSessionTasks['incomplete'] = [];
+        $this->totalTime = 0;
+        foreach($sessionTasks as $task) {
+            if (!empty($task['task']) && !empty($task['work'])) {
+                if (!empty($task['completed'])) {
+                    if (!empty($task['fifteen'])) {
+                        $this->totalTime += .5;
+                        $formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']] = (isset($formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']])) ? $formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']] + 0.5 : 0.5;
+                        $formattedSessionTasks['completed'][$task['task']]['stats'] = (isset($formattedSessionTasks['completed'][$task['task']]['stats'])) ? $formattedSessionTasks['completed'][$task['task']]['stats'] + 0.5 : 0.5;
+                    } else {
+                        $this->totalTime += 1;
+                        $formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']] = (isset($formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']])) ? $formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']] + 1 : 1;
+                        $formattedSessionTasks['completed'][$task['task']]['stats'] = (isset($formattedSessionTasks['completed'][$task['task']]['stats'])) ? $formattedSessionTasks['completed'][$task['task']]['stats'] + 1 : 1;
+                    }
+                } else {
+                    if (!empty($task['fifteen'])) {
+                        $this->totalTime += .5;
+                        $formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']] = (isset($formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']])) ? $formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']] + 0.5 : 0.5;
+                        $formattedSessionTasks['incomplete'][$task['task']]['stats'] = (isset($formattedSessionTasks['incomplete'][$task['task']]['stats'])) ? $formattedSessionTasks['incomplete'][$task['task']]['stats'] + 0.5 : 0.5;
+                    } else {
+                        $this->totalTime += 1;
+                        $formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']] = (isset($formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']])) ? $formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']] + 1 : 1;
+                        $formattedSessionTasks['incomplete'][$task['task']]['stats'] = (isset($formattedSessionTasks['incomplete'][$task['task']]['stats'])) ? $formattedSessionTasks['incomplete'][$task['task']]['stats'] + 1 : 1;
+                    }
+                }
+            }
+        }
+
+        $this->totalTime = $this->formatTimeBy30($this->totalTime);
+
+        return $formattedSessionTasks;
     }
 
     public function formatTimeBy30($number)
@@ -150,6 +194,12 @@ class Output extends Component
         }, $filteredTasks);
         session(['tasks' => array_replace($tasks, $loggedTasks)]);
 
+        $this->tasks = $this->tasks();
+    }
+
+    public function formatTasks($format) {
+        $this->taskFormat = $format;
+        session(['taskFormat' => $format]);
         $this->tasks = $this->tasks();
     }
 }
