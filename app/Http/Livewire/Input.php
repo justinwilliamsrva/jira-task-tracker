@@ -24,7 +24,7 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start' => 8, 'end' => 6];
+        $this->counter = session('counter') ?? ['start' => date('H'), 'end' => 6];
         $this->taskTable = session('taskTable') ?? [];
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
@@ -49,7 +49,7 @@ class Input extends Component
         }
         session()->save();
         $this->task = [];
-        $this->counter = ['start' => 8, 'end' => 6];
+        $this->counter = ['start' => date('H'), 'end' => 6];
         $this->timeChanger();
         $this->dispatchBrowserEvent('clear');
     }
