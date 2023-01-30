@@ -116,6 +116,7 @@ class Input extends Component
     {
         session()->forget("tasks.{$time}");
         Arr::forget($this->task, $time);
+        $this->refreshTaskList();
         $this->save();
 
     }
