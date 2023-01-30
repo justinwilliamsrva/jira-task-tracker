@@ -11,8 +11,8 @@
     <div class="flex flex-col justify-center">
         <h2 class="text-center text-xl">Format</span></h2>
         <span class="isolate inline-flex justify-center rounded-md">
-            <button type="button" wire:click="formatTasks('time')" class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Time</button>
-            <button type="button" wire:click="formatTasks('task')" class="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">Task</button>
+            <button type="button" wire:click="formatTasks('time')" class="{{$taskFormat == 'time' ? 'z-10 border-blue-500 outline-none ring-1 ring-blue-500' :''}} relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">Time</button>
+            <button type="button" wire:click="formatTasks('task')" class="{{$taskFormat == 'task' ? 'z-10 border-green-500 outline-none ring-1 ring-green-500' :''}} relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500">Task</button>
         </span>
     </div>
     @if($taskFormat == 'task')
