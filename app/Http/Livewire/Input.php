@@ -54,8 +54,13 @@ class Input extends Component
         $this->dispatchBrowserEvent('clear');
     }
 
-    public function updatedTask()
+    public function updatedTask($value, $key)
     {
+        if (substr($key, -4) == 'work' && !empty($value)) {
+            $time = str_replace('.work', '', $key);
+            $taskName = $this->task[$time]['task'];
+            $this->taskTable[$taskName]['locked'] = true;
+        }
         $this->refreshTaskList();
         $this->save();
     }
