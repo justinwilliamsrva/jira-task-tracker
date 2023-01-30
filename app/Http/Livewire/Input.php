@@ -24,7 +24,7 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start' => date('H'), 'end' => 6];
+        $this->counter = session('counter') ?? ['start' => ltrim(date('H'), "0"), 'end' => 6];
         $this->taskTable = session('taskTable') ?? [];
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
@@ -49,7 +49,7 @@ class Input extends Component
         }
         session()->save();
         $this->task = [];
-        $this->counter = ['start' => date('H'), 'end' => 6];
+        $this->counter = ['start' => ltrim(date('H'), "0"), 'end' => 6];
         $this->timeChanger();
         $this->dispatchBrowserEvent('clear');
     }
@@ -157,5 +157,11 @@ class Input extends Component
                 $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? '';
             }
         }
+    }
+
+    public function getCurrentTime() {
+        $this->counter['start'] = ltrim(date('H'), "0");
+        $this->save();
+        $this->timeChanger();
     }
 }

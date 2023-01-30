@@ -18,7 +18,7 @@
                     </div>
                     <div class="flex flex-col w-24">
                         <label class="text-center">Start Time</label>
-                        <p class="text-center text-6xl">{{ $this->showStart()}}<span class="text-base">{{ $counter['start'] < 12 ? 'am' : 'pm'}}</span></p>
+                        <p class="text-center text-6xl cursor-pointer" wire:click="getCurrentTime()">{{ $this->showStart()}}<span class="text-base">{{ $counter['start'] < 12 ? 'am' : 'pm'}}</span></p>
                     </div>
                     <div class="flex flex-col w-24">
                         <label class="text-center">End Time</label>
