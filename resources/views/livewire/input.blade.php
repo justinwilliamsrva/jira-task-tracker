@@ -105,7 +105,7 @@
                                 </label>
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }}, {{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
                             </div>
-                            <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('30','45',$time)}}')" placeholder="Task #">
+                            <input id="task-{{ $loop->iteration + 0.5 }}" class="col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('00','15',$time)}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
                         </div>
                     </div>
