@@ -32,15 +32,6 @@ class Input extends Component
 
     public function save()
     {
-
-        $this->taskTable = array_filter($this->taskTable, function($task) {return $task['locked'];});
-        foreach($this->task as $task) {
-            if (!empty($task['task'])) {
-                $this->taskTable[$task['task']]['locked'] = $this->taskTable[$task['task']]['locked'] ?? false;
-                $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? '';
-            }
-        }
-
         session(['tasks' => $this->task, 'counter' => $this->counter, 'taskTable' => $this->taskTable, 'taskTitles' => $this->taskTitles]);
     }
 
@@ -65,6 +56,7 @@ class Input extends Component
 
     public function updatedTask()
     {
+        $this->refreshTaskList();
         $this->save();
     }
     public function updatedTaskTable()
@@ -73,6 +65,7 @@ class Input extends Component
     }
     public function updatedTaskTitles()
     {
+        $this->refreshTaskList();
         $this->save();
     }
     public function timeChanger()
@@ -147,5 +140,16 @@ class Input extends Component
     public function taskToPasteTo($time)
     {
         $this->taskForCopying = $time;
+    }
+
+    protected function refreshTaskList()
+    {
+        $this->taskTable = array_filter($this->taskTable, function($task) {return $task['locked'];});
+        foreach($this->task as $task) {
+            if (!empty($task['task'])) {
+                $this->taskTable[$task['task']]['locked'] = $this->taskTable[$task['task']]['locked'] ?? false;
+                $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? '';
+            }
+        }
     }
 }
