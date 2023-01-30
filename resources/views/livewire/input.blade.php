@@ -1,7 +1,8 @@
     <div class="flex flex-col space-y-6 py-2">
+        <h1 class="text-center text-2xl">Add Time</h1>
         <div class="flex flex-col md:flex-row justify-center space-x-0 space-y-4 md:space-x-4 md:space-y-0">
             <div class="flex-1 first-line:flex flex-col justify-center">
-                <h1 class="text-center text-2xl">Time</h1>
+                <h2 class="text-center text-xl">Time</h2>
                 <div class="flex justify-center space-x-1 max-w-4xl mx-auto">
                     <div class="flex flex-col">
                         <button class="{{$counter['start'] > 22 ? 'invisible pointer-events-none ' : '' }}" wire:click="increment('start')">
@@ -42,13 +43,13 @@
                 </div>
             </div>
             <div class="flex-1 p-2">
-                <h1 class="text-center text-2xl">Task List</h1>
+                <h2 class="text-center text-xl">Tasks</h2>
                 <table class="table-fixed min-w-full p-2">
                     <thead class="text-gray-700 uppercase">
                         <tr class="">
                             <th class="bg-gray-50 w-[15%] text-left"><button class="w-full uppercase bg-gray-200 px-2 rounded hover:bg-gray-300 border border-gray-200 text-center" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
                             <th class="bg-gray-50 w-[25%] text-center">Task #</th>
-                            <th class="bg-gray-50">Tasks</th>
+                            <th class="bg-gray-50">Task Titles</th>
                         </tr>
                     </thead>
                     <tbody class="">
