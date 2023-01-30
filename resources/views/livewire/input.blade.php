@@ -49,7 +49,7 @@
                         <tr class="">
                             <th class="bg-gray-50 w-[15%] text-left"><button class="w-full uppercase bg-gray-200 px-2 rounded hover:bg-gray-300 border border-gray-200 text-center" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
                             <th class="bg-gray-50 w-[25%] text-center">Task #</th>
-                            <th class="bg-gray-50">Task Titles</th>
+                            <th class="bg-gray-50 text-left">Task Titles</th>
                         </tr>
                     </thead>
                     <tbody class="">
