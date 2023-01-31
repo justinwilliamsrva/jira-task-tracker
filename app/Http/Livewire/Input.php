@@ -24,7 +24,7 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start' => ltrim(date('H'), "0"), 'end' => 6];
+        $this->counter = session('counter') ?? ['start' => ltrim(date('H'), "0"), 'end' => (ltrim(date('H'), "0") > 14) ? 12 : 6];
         $this->taskTable = session('taskTable') ?? [];
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
@@ -40,7 +40,7 @@ class Input extends Component
         session()->forget('tasks');
         session()->forget('counter');
         $this->taskTable = array_filter($this->taskTable, function($task) {return $task['locked'];});
-        session(['taskTitles' => $this->taskTitles]);
+        session(['taskTable' => $this->taskTable]);
         if ($scope == 'All') {
             session()->forget('taskTable');
             session()->forget('taskTitles');
@@ -49,7 +49,7 @@ class Input extends Component
         }
         session()->save();
         $this->task = [];
-        $this->counter = ['start' => ltrim(date('H'), "0"), 'end' => 6];
+        $this->counter = ['start' => ltrim(date('H'), "0"), 'end' => (ltrim(date('H'), "0") > 14) ? 12 : 6];
         $this->taskForCopying = '';
         $this->timeChanger();
         $this->dispatchBrowserEvent('clear');
