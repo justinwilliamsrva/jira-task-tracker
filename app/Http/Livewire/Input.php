@@ -50,6 +50,7 @@ class Input extends Component
         session()->save();
         $this->task = [];
         $this->counter = ['start' => ltrim(date('H'), "0"), 'end' => 6];
+        $this->taskForCopying = '';
         $this->timeChanger();
         $this->dispatchBrowserEvent('clear');
     }
