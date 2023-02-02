@@ -86,7 +86,7 @@
                             </label>
                             <div class="col-span-3 order-5 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
-                                <label @click="{{ empty($task[$time]['fifteen'])}} ? open_{{Str::replace('-', '_', Str::slug($time))}} = true : 'open_{{Str::replace('-', '_', Str::slug($time))}}=open_{{Str::replace('-', '_', Str::slug($time))}}' " class="relative flex items-center cursor-pointer">
+                                <label @click="{{ empty($task[$time]['fifteen'])}} ? open_{{Str::replace('-', '_', Str::slug($time))}} = true : open_{{Str::replace('-', '_', Str::slug($time))}}=open_{{Str::replace('-', '_', Str::slug($time))}}" wire:click="setFifteenMinutes('{{$time}}','00','15')" class="relative flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
@@ -123,7 +123,7 @@
                             </label>
                             <div class="col-span-3 order-5 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
-                                <label @click="{{ empty($task[$time]['fifteen'])}} ? open_{{Str::replace('-', '_', Str::slug($time))}} = true : 'open_{{Str::replace('-', '_', Str::slug($time))}}=open_{{Str::replace('-', '_', Str::slug($time))}}' "class="relative flex items-center cursor-pointer">
+                                <label @click="{{ empty($task[$time]['fifteen'])}} ? open_{{Str::replace('-', '_', Str::slug($time))}} = true : 'open_{{Str::replace('-', '_', Str::slug($time))}}=open_{{Str::replace('-', '_', Str::slug($time))}}'" wire:click="setFifteenMinutes('{{$time}}','30','45')"  "class="relative flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model.debounce.500ms="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>

@@ -126,9 +126,10 @@ class Input extends Component
 
     public function setFifteenMinutes($time, $mainNum, $replaceNum)
     {
-        if (!isset($this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen'])) {
+
+        if (!isset($this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen']) || !$this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen']) {
             $this->task[Str::replace($mainNum, $replaceNum, $time)]['fifteen'] = true;
-            session()->save();
+            $this->save();
         }
     }
 
