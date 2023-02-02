@@ -16,6 +16,7 @@ class Input extends Component
     public $taskTable = [];
     public $taskTitles = [];
     public $taskForCopying = '';
+    public $realLink = '';
     public function render()
     {
         return view('livewire.input');
@@ -28,6 +29,7 @@ class Input extends Component
         $this->taskTable = session('taskTable') ?? [];
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
+        $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
     }
 
     public function save()

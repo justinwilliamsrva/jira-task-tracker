@@ -48,7 +48,7 @@
                     <thead class="text-gray-700 uppercase">
                         <tr class="">
                             <th class="bg-gray-50 w-[15%] text-left"><button class="w-full uppercase bg-gray-200 px-2 rounded hover:bg-gray-300 border border-gray-200 text-center" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
-                            <th class="bg-gray-50 w-[25%] text-center">Task #</th>
+                            <th class="bg-gray-50 w-[28%] text-left">Task #</th>
                             <th class="bg-gray-50 text-left">Task Titles</th>
                         </tr>
                     </thead>
@@ -61,7 +61,11 @@
                                         <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-2 border border-gray-400 rounded shadow w-full text-center">Lock</span>
                                     </label>
                                 </td>
-                                <td class="text-center"><button id="taskName-{{$loop->iteration}}" data-clipboard-target="#taskName-{{$loop->iteration}}" class="btn bg-gray-200 border-gray-200 px-2 rounded hover:bg-gray-300" wire:click="copyPasteTask('{{ $taskName }}')"> {{ $taskName   }}</button></td>
+                                <td class="text-center flex items-center space-x-1"><button id="taskName-{{$loop->iteration}}" data-clipboard-target="#taskName-{{$loop->iteration}}" class="btn bg-gray-200 border-gray-200 px-2 rounded hover:bg-gray-300" wire:click="copyPasteTask('{{ $taskName }}')"> {{ $taskName }}</button><a href="{{$realLink}}{{$taskName}}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z" />
+  <path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 105.656 5.656l3-3a4 4 0 00-.225-5.865z" />
+</svg>
+</a></td>
                                 <td class="text-left"><input class="w-full border-gray-200" type="text" wire:model.debounce.500ms="taskTitles.{{$taskName}}"/></td>
                             </tr>
                         @empty
