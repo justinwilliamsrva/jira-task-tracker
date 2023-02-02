@@ -75,15 +75,15 @@
                 @if(str_contains($time, '00'))
                     <div id="iteration-{{ $loop->iteration }}" x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('00','15',$time)]['task']) }}'}" x-on:clear.window="open_{{Str::replace('-', '_', Str::slug($time))}} = false" class="space-y-2">
                     <div class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
-                            <h2 @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','00','15')" class=" cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
+                            <h2 @click="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','00','15')" class=" cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
                                 <input type="checkbox" wire:model.debounce.500ms="task.{{$time}}.completed">
                             </label>
                             <div class="col-span-3 order-5 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
-                                <label class="relative flex items-center cursor-pointer">
-                                    <input type="checkbox" wire:model.debounce.500ms="task.{{$time}}.fifteen" class="vis-hidden">
+                                <label @click="{{ empty($task[$time]['fifteen'])}} ? open_{{Str::replace('-', '_', Str::slug($time))}} = true : 'open_{{Str::replace('-', '_', Str::slug($time))}}=open_{{Str::replace('-', '_', Str::slug($time))}}' " class="relative flex items-center cursor-pointer">
+                                    <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
                                 <button :class="{{ $loop->iteration == 1 }} ? 'invisible' : ''" class="bg-white text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }}, {{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
@@ -92,7 +92,7 @@
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
                         <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 gap-y-2 p-2 rounded">
-                            <h2 @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ Str::replace('00','15',$time) }}</h2>
+                            <h2 @click="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ Str::replace('00','15',$time) }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
                                 <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.completed">
@@ -112,14 +112,14 @@
                 @elseif(str_contains($time, '30'))
                     <div id="iteration-{{ $loop->iteration }}" x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('30','45',$time)]['task']) }}'}" x-on:clear.window="open_{{Str::replace('-', '_', Str::slug($time))}} = false" class="space-y-2">
                         <div class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
-                            <h2  @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','30','45')" class="cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
+                            <h2  @click="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','30','45')" class="cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
                                 <input type="checkbox" wire:model.debounce.500ms="task.{{$time}}.completed">
                             </label>
                             <div class="col-span-3 order-5 flex justify-around">
                                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" wire:click="clearSingle('{{$time}}')">Clear</button>
-                                <label class="relative flex items-center cursor-pointer">
+                                <label @click="{{ empty($task[$time]['fifteen'])}} ? open_{{Str::replace('-', '_', Str::slug($time))}} = true : 'open_{{Str::replace('-', '_', Str::slug($time))}}=open_{{Str::replace('-', '_', Str::slug($time))}}' "class="relative flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model.debounce.500ms="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
@@ -129,7 +129,7 @@
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
                         </div>
                         <div :class="open_{{Str::replace('-', '_', Str::slug($time))}} ? '' : 'hidden'" class="bg-green-400 grid grid-cols-3 gap-y-2 p-2 rounded">
-                            <h2 @dblclick="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ Str::replace('30','45',$time) }}</h2>
+                            <h2 @click="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}" class="cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ Str::replace('30','45',$time) }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
                                 <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.completed">
