@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::domain('jira-task-tracker.justinw-projects.com')->group(function () {
     Route::get('/', Input::class)->name('input');
     Route::get('/output', Output::class)->name('output');
-
 });
 Route::get('/', Input::class)->name('input');
 Route::get('/output', Output::class)->name('output');

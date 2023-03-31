@@ -7,19 +7,25 @@ use Livewire\Component;
 class Output extends Component
 {
     public $link;
+
     public $placeholder;
+
     public $totalTime;
+
     public $tasks;
+
     public $realLink;
+
     public $taskFormat;
 
     public function render()
     {
         return view('livewire.output');
     }
+
     public function mount()
     {
-        $this->placeholder = (!empty(session('link')) || session()->has('link'))  ? ' Link is Saved in Session' : ((config('services.jira_link')) ? ' Link is Saved in ENV' : ' Add your Jira task link ');
+        $this->placeholder = (! empty(session('link')) || session()->has('link')) ? ' Link is Saved in Session' : ((config('services.jira_link')) ? ' Link is Saved in ENV' : ' Add your Jira task link ');
         $this->taskFormat = session('taskFormat') ?? 'time';
         $this->tasks = $this->tasks();
         $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
@@ -27,7 +33,7 @@ class Output extends Component
 
     public function tasks()
     {
-        if (!session()->has('tasks')) {
+        if (! session()->has('tasks')) {
             return [];
         } elseif ($this->taskFormat == 'task') {
             return $this->createTaskFormat(session('tasks'));
@@ -35,6 +41,7 @@ class Output extends Component
 
         return $this->createTimeFormat(session('tasks'));
     }
+
     public function createTimeFormat($sessionTasks)
     {
         $newArray['completed'] = [];
@@ -45,8 +52,8 @@ class Output extends Component
                 continue;
             }
 
-            if (!empty($tasks['completed'])) {
-                if (isset($tasks['work']) && !empty($tasks['fifteen'])) {
+            if (! empty($tasks['completed'])) {
+                if (isset($tasks['work']) && ! empty($tasks['fifteen'])) {
                     if (array_key_exists($tasks['task'], $newArray['completed'])) {
                         $newArray['completed'][$tasks['task']]['stats'] += .5;
                     } else {
@@ -62,9 +69,9 @@ class Output extends Component
                     $this->totalTime += 1;
                 }
 
-                $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? '', 'fifteen' => $tasks['fifteen'] ?? false ];
+                $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? '', 'fifteen' => $tasks['fifteen'] ?? false];
             } else {
-                if (isset($tasks['work']) && !empty($tasks['fifteen'])) {
+                if (isset($tasks['work']) && ! empty($tasks['fifteen'])) {
                     if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                         $newArray['incomplete'][$tasks['task']]['stats'] += .5;
                     } else {
@@ -102,10 +109,10 @@ class Output extends Component
         $formattedSessionTasks['completed'] = [];
         $formattedSessionTasks['incomplete'] = [];
         $this->totalTime = 0;
-        foreach($sessionTasks as $task) {
-            if (!empty($task['task']) && !empty($task['work'])) {
-                if (!empty($task['completed'])) {
-                    if (!empty($task['fifteen'])) {
+        foreach ($sessionTasks as $task) {
+            if (! empty($task['task']) && ! empty($task['work'])) {
+                if (! empty($task['completed'])) {
+                    if (! empty($task['fifteen'])) {
                         $this->totalTime += .5;
                         $formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']] = (isset($formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']])) ? $formattedSessionTasks['completed'][$task['task']]['taskList'][$task['work']] + 0.5 : 0.5;
                         $formattedSessionTasks['completed'][$task['task']]['stats'] = (isset($formattedSessionTasks['completed'][$task['task']]['stats'])) ? $formattedSessionTasks['completed'][$task['task']]['stats'] + 0.5 : 0.5;
@@ -115,7 +122,7 @@ class Output extends Component
                         $formattedSessionTasks['completed'][$task['task']]['stats'] = (isset($formattedSessionTasks['completed'][$task['task']]['stats'])) ? $formattedSessionTasks['completed'][$task['task']]['stats'] + 1 : 1;
                     }
                 } else {
-                    if (!empty($task['fifteen'])) {
+                    if (! empty($task['fifteen'])) {
                         $this->totalTime += .5;
                         $formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']] = (isset($formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']])) ? $formattedSessionTasks['incomplete'][$task['task']]['taskList'][$task['work']] + 0.5 : 0.5;
                         $formattedSessionTasks['incomplete'][$task['task']]['stats'] = (isset($formattedSessionTasks['incomplete'][$task['task']]['stats'])) ? $formattedSessionTasks['incomplete'][$task['task']]['stats'] + 0.5 : 0.5;
@@ -137,15 +144,15 @@ class Output extends Component
     {
         $number = $number / 2;
 
-        $whole  = floor($number);
-        $fraction  = (($number - $whole) * 60);
+        $whole = floor($number);
+        $fraction = (($number - $whole) * 60);
 
         if ($whole == 0) {
-            return $fraction . 'm';
+            return $fraction.'m';
         } elseif ($fraction == 0) {
-            return $whole . 'h';
+            return $whole.'h';
         } else {
-            return $whole . 'h ' . $fraction . 'm';
+            return $whole.'h '.$fraction.'m';
         }
     }
 
@@ -157,10 +164,11 @@ class Output extends Component
         $this->placeholder = ' Link is Saved in Session';
     }
 
-    public function logTask($key){
+    public function logTask($key)
+    {
         $tasks = session('tasks');
 
-        $filteredTasks = array_filter($tasks, function($task) use($key) {
+        $filteredTasks = array_filter($tasks, function ($task) use ($key) {
             return (isset($task['completed']) ? $task['completed'] != true : true) && (isset($task['task']) ? $task['task'] == $key : false);
         });
 
@@ -177,11 +185,12 @@ class Output extends Component
         $this->tasks = $this->tasks();
     }
 
-    public function unLogTask($key){
+    public function unLogTask($key)
+    {
         $tasks = session('tasks');
 
-        $filteredTasks = array_filter($tasks, function($task) use($key) {
-            return (!empty($task['completed'])) && (isset($task['task']) ? $task['task'] == $key : false);
+        $filteredTasks = array_filter($tasks, function ($task) use ($key) {
+            return (! empty($task['completed'])) && (isset($task['task']) ? $task['task'] == $key : false);
         });
 
         $loggedTasks = array_map(function ($task) {
@@ -197,7 +206,8 @@ class Output extends Component
         $this->tasks = $this->tasks();
     }
 
-    public function formatTasks($format) {
+    public function formatTasks($format)
+    {
         $this->taskFormat = $format;
         session(['taskFormat' => $format]);
         $this->tasks = $this->tasks();
