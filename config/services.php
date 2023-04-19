@@ -32,4 +32,11 @@ return [
     ],
 
     'jira_link' => env('JIRA_LINK'),
+
+    'jira_service' => [
+        'ajs_anonymous_id' => env('AJS_ANONYMOUS_ID'),
+        'atlassian_xsrf_token' => env('ATLASSIAN_XSRF_TOKEN'),
+        'cloud_session_token' => env('CLOUD_SESSION_TOKEN'),
+        'jira_api_url' => env('JIRA_API_URL'),
+    ]
 ];
