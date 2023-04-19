@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Services\JiraService;
 
 class Output extends Component
 {
@@ -140,7 +141,7 @@ class Output extends Component
         return $formattedSessionTasks;
     }
 
-    public function formatTimeBy30($number)
+    public static function formatTimeBy30($number)
     {
         $number = $number / 2;
 
@@ -183,6 +184,19 @@ class Output extends Component
         session(['tasks' => array_replace($tasks, $loggedTasks)]);
 
         $this->tasks = $this->tasks();
+
+        $messages = $this->taskFormat == 'task' ? $this->tasks['completed'][$key]['taskList'] : $this->tasks['completed'][$key]['tasks'];
+        $timeSpent = $this->tasks['completed'][$key]['stats'];
+        $timeStarted = $this->taskFormat == 'task' ? key($filteredTasks) : $this->tasks['completed'][$key]['tasks'][0]['time'];
+
+        $jiraService = new JiraService();
+        $result = $jiraService->logTask($key, $messages, $timeSpent, $timeStarted , $this->taskFormat);
+
+        if ($result) {
+            session()->flash('message', 'Task logged successfully!');
+        } else {
+            session()->flash('error', 'An error occurred while logging the task.');
+        }
     }
 
     public function unLogTask($key)

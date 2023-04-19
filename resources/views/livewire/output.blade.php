@@ -1,4 +1,18 @@
 <div class="flex flex-col justify-center space-y-6 py-2">
+    <!-- Flash message -->
+    @if (session()->has('message'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert" id="flash-message">
+            <p class="font-bold">Success</p>
+            <p>{{ session('message') }}</p>
+        </div>
+    @endif
+
+    @if (session()->has('error'))
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert" id="flash-message">
+            <p class="font-bold">Error</p>
+            <p>{{ session('error') }}</p>
+        </div>
+    @endif
     <h1 class="text-center text-2xl">View Time</h1>
     <h2 class="text-center text-xl">Total Time<span>{{$tasks ? ' - '.$totalTime : '' }}</span></h2>
     <div class="flex flex-col justify-center">
@@ -49,7 +63,7 @@
                                     <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}} bold" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
                                         - <span title="Copy" id="task-com-time-{{$loop->iteration}}" class="time cursor-pointer border-2 border-blue-200 bg-blue-200 hover:bg-blue-500 hover:border-blue-500 px-2 bold rounded" data-clipboard-target="#task-com-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
                                         - <button class="btn bg-blue-200 hover:bg-blue-500 px-2 bold rounded" data-clipboard-target="#task-com-task-{{$loop->iteration}}">Copy<span>&#8595</span></button>
-                                        - <button class="bg-red-200 hover:bg-red-500 px-2 bold rounded" onclick="confirm('Are you sure you want to unlog task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="unLogTask('{{$key}}')">Unlog</button>
+                                        <!-- - <button class="bg-red-200 hover:bg-red-500 px-2 bold rounded" onclick="confirm('Are you sure you want to unlog task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="unLogTask('{{$key}}')">Unlog</button> -->
                                     </h2>
                                 </div>
                                 <ul id="task-com-task-{{$loop->iteration}}"class="ml-10 list-disc">
@@ -103,7 +117,7 @@
                                     <h2 class="text-lg"><a class="{{$realLink ? 'underline text-blue-500' : 'cursor-default pointer-events-none'}} bold" href="{{$realLink}}{{$key}}" target="_blank">{{$key}}</a>
                                         - <span title="Copy" id="com-time-{{$loop->iteration}}" class="time cursor-pointer border-2 border-blue-200 bg-blue-200 hover:bg-blue-500 hover:border-blue-500 px-2 bold rounded" data-clipboard-target="#com-time-{{$loop->iteration}}"> {{$this->formatTimeBy30($task['stats'])}}</span>
                                         - <button class="btn bg-blue-200 hover:bg-blue-500 px-2 bold rounded" data-clipboard-target="#com-task-{{$loop->iteration}}">Copy<span>&#8595</span></button>
-                                        - <button class="bg-red-200 hover:bg-red-500 px-2 bold rounded" onclick="confirm('Are you sure you want to unlog task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="unLogTask('{{$key}}')">Unlog</button>
+                                        <!-- - <button class="bg-red-200 hover:bg-red-500 px-2 bold rounded" onclick="confirm('Are you sure you want to unlog task {{$key}} ?') || event.stopImmediatePropagation()" wire:click="unLogTask('{{$key}}')">Unlog</button> -->
                                     </h2>
                                 </div>
                                 <ul id="com-task-{{$loop->iteration}}"class="ml-10 list-disc">
@@ -125,3 +139,9 @@
         @endif
     @endif
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    setTimeout(function() {
+        $('#flash-message').fadeOut('fast');
+    }, 5000); // 5 seconds
+</script>
