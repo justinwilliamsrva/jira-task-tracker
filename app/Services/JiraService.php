@@ -33,7 +33,7 @@ class JiraService
 
         $comment = $this->formatComment($messages, $taskFormat);
         // $comment = str_replace("'", "\"", $comment);
-        $started = $this->formatTimeStarted($timeStarted);
+        // $started = $this->formatTimeStarted($timeStarted);
         $timeSpent = Output::formatTimeBy30($timeSpent);
 
         try {
@@ -42,7 +42,7 @@ class JiraService
                 'Accept' => 'application/json',
             ])->post($this->jira_api_url.$taskNumber.'/worklog',[
                     "comment" => $comment,
-                    "started" => $started,
+                    "started" => now()->setTime(now()->hour, now()->minute, 0, 0)->setTimezone('-0400')->format('Y-m-d\TH:i:s.uO'),
                     "timeSpent" => $timeSpent,
             ]);
 
@@ -56,14 +56,14 @@ class JiraService
         return null;
     }
 
-    protected function formatTimeStarted($timeStarted) {
-        $timeStarted = date('H:i', strtotime($timeStarted));
-        $time_parts = explode(':', $timeStarted);
-        $hour = $time_parts[0];
-        $minute = $time_parts[1];
+    // protected function formatTimeStarted($timeStarted) {
+    //     $timeStarted = date('H:i', strtotime($timeStarted));
+    //     $time_parts = explode(':', $timeStarted);
+    //     $hour = $time_parts[0];
+    //     $minute = $time_parts[1];
 
-        return now()->setTime($hour, $minute, 0, 0)->setTimezone('-0400')->format('Y-m-d\TH:i:s.uO');
-    }
+    //     return now()->setTime($hour, $minute, 0, 0)->setTimezone('-0400')->format('Y-m-d\TH:i:s.uO');
+    // }
 
     protected function formatComment($messages, $taskFormat) {
         $comment = "";
