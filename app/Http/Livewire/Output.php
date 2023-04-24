@@ -199,7 +199,7 @@ class Output extends Component
         $result = $jiraService->logTask($key, $messages, $timeSpent, $timeStarted , $this->taskFormat);
 
         if ($result) {
-            session()->flash('message', 'Task logged successfully!');
+            session()->flash('message', $key.' logged successfully!');
         } else {
             session()->flash('error', 'An error occurred while logging the task.');
         }
