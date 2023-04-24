@@ -167,6 +167,13 @@ class Output extends Component
 
     public function logTask($key)
     {
+        //Get incomplete Tasks for Jira Loggin
+        $allTasks = $this->tasks();
+
+        $messages = $this->taskFormat == 'task' ? $allTasks['incomplete'][$key]['taskList'] : $allTasks['incomplete'][$key]['tasks'];
+        $timeSpent = $allTasks['incomplete'][$key]['stats'];
+
+        // Log in this app
         $tasks = session('tasks');
 
         $filteredTasks = array_filter($tasks, function ($task) use ($key) {
@@ -185,8 +192,7 @@ class Output extends Component
 
         $this->tasks = $this->tasks();
 
-        $messages = $this->taskFormat == 'task' ? $this->tasks['completed'][$key]['taskList'] : $this->tasks['completed'][$key]['tasks'];
-        $timeSpent = $this->tasks['completed'][$key]['stats'];
+        // Log in JIRA
         $timeStarted = $this->taskFormat == 'task' ? key($filteredTasks) : $this->tasks['completed'][$key]['tasks'][0]['time'];
 
         $jiraService = new JiraService();
