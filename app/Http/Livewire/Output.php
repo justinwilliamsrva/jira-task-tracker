@@ -169,7 +169,6 @@ class Output extends Component
     {
         //Get incomplete Tasks for Jira Loggin
         $allTasks = $this->tasks();
-
         $messages = $this->taskFormat == 'task' ? $allTasks['incomplete'][$key]['taskList'] : $allTasks['incomplete'][$key]['tasks'];
         $timeSpent = $allTasks['incomplete'][$key]['stats'];
 

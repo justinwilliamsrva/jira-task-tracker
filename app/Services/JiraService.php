@@ -28,7 +28,7 @@ class JiraService
         return 'ajs_anonymous_id='.$this->ajs_anonymous_id.'; atlassian.xsrf.token=.'.$this->atlassian_xsrf_token.'; cloud.session.token='.$this->cloud_session_token;
     }
 
-    public function logTask(string $taskNumber, array $messages, int $timeSpent, string $timeStarted, string $taskFormat)
+    public function logTask(string $taskNumber, array $messages, $timeSpent, string $timeStarted, string $taskFormat)
     {
 
         $comment = $this->formatComment($messages, $taskFormat);
@@ -54,6 +54,26 @@ class JiraService
         }
 
         return null;
+    }
+    public function getTitle(string $taskNumber)
+    {
+        try {
+            $response = Http::withHeaders([
+                'Cookie' => $this->getCookie(),
+                'Accept' => '*/*',
+            ])->get($this->jira_api_url.$taskNumber);
+
+            $response->throw();
+
+            $responseBody =  json_decode($response->body(), true);
+            $title = $responseBody['fields']['summary'] ? $responseBody['fields']['summary'] : '';
+
+            return $title;
+        } catch (Exception $e) {
+            return '';
+        }
+
+        return '';
     }
 
     // protected function formatTimeStarted($timeStarted) {

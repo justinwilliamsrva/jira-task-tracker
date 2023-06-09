@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use App\Services\JiraService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -25,9 +26,16 @@ class Input extends Component
 
     public $realLink = '';
 
+    protected $jiraService;
+
+
     public function render()
     {
         return view('livewire.input');
+    }
+    public function boot()
+    {
+        $this->jiraService = new JiraService();
     }
 
     public function mount()
@@ -38,6 +46,7 @@ class Input extends Component
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
         $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
+
     }
 
     public function save()
@@ -171,10 +180,11 @@ class Input extends Component
         $this->taskTable = array_filter($this->taskTable, function ($task) {
             return $task['locked'];
         });
+
         foreach ($this->task as $task) {
             if (! empty($task['task'])) {
                 $this->taskTable[$task['task']]['locked'] = $this->taskTable[$task['task']]['locked'] ?? false;
-                $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? '';
+                $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? ($this->jiraService->getTitle($task['task']) ?? '');
             }
         }
     }
