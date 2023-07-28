@@ -27,7 +27,7 @@ class Output extends Component
     public function mount()
     {
         $this->placeholder = (! empty(session('link')) || session()->has('link')) ? ' Link is Saved in Session' : ((config('services.jira_link')) ? ' Link is Saved in ENV' : ' Add your Jira task link ');
-        $this->taskFormat = session('taskFormat') ?? 'time';
+        $this->taskFormat = session('taskFormat') ?? 'task';
         $this->tasks = $this->tasks();
         $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
     }
@@ -200,7 +200,7 @@ class Output extends Component
         if ($result) {
             session()->flash('message', $key.' logged successfully!');
         } else {
-            session()->flash('error', 'An error occurred while logging the task.');
+            session()->flash('error', 'An error occurred while logging '.$key);
         }
     }
 
