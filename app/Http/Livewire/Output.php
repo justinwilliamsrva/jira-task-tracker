@@ -19,6 +19,10 @@ class Output extends Component
 
     public $taskFormat;
 
+    public $jiraStatus;
+
+    protected $listeners = ['log-task' => 'logTask'];
+
     public function render()
     {
         return view('livewire.output');
