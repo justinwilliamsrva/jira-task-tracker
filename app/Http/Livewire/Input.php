@@ -195,4 +195,28 @@ class Input extends Component
         $this->save();
         $this->timeChanger();
     }
+
+    public function copyFromAbove($time) {
+        $timeSorted = $this->task;
+        //Sort the tasks by time.
+        uksort($timeSorted, function($a, $b){
+            return strtotime($a) - strtotime($b);
+        });
+
+        $previousTime = null;
+
+        // Get most recent previous task to the one click on.
+        foreach ($timeSorted as $key => $value) {
+            if (strtotime($key) >= strtotime($time)) {
+                break;
+            }
+            $previousTime = $key;
+        }
+
+        // Assigned previous task to the task clicked on.
+        if ($previousTime !== null) {
+           $this->task[$time]['task'] = $timeSorted[$previousTime]['task'];
+           $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
+        }
+    }
 }

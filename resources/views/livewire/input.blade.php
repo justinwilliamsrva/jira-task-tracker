@@ -90,7 +90,7 @@
                                     <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button :class="{{ $loop->iteration == 1 }} ? 'invisible' : ''" class="bg-white text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }}, {{ $loop->iteration }})" {{ $loop->iteration == 1 ? 'disabled' : '' }}>Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ $time }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="{{ $taskForCopying == $time ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" wire:click="taskToPasteTo('{{$time}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
@@ -107,7 +107,7 @@
                                     <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }}, {{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ Str::replace('00', '15', $time) }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration + 0.5 }}" class="{{ $taskForCopying == Str::replace('00','15',$time) ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('00','15',$time)}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
@@ -127,7 +127,7 @@
                                     <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration }}, {{ $loop->iteration }})">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ $time }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="{{ $taskForCopying == $time ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" wire:click="taskToPasteTo('{{$time}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
@@ -144,7 +144,7 @@
                                     <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow" onclick="copyFromAbove({{ $loop->iteration + 0.5 }}, {{ $loop->iteration + 0.5 }})">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ Str::replace('30', '45', $time) }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration + 0.5 }}" class="{{ $taskForCopying == Str::replace('30','45',$time) ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('30','45',$time)}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.work" placeholder="Work Completed"></input>
@@ -155,7 +155,7 @@
         </div>
     </form>
 <script>
-function copyFromAbove(id, currentID) {
+function copyFromAbove(id, currentID) {// Not Used
     if (id == 1) {
         alert('Nothing to Copy');
         return;
@@ -199,7 +199,7 @@ function copyFromAbove(id, currentID) {
     currentDesc.select();
     currentDesc.setSelectionRange(0, 99999);
 }
-function getCopyIdFromThirtyMinuteInput(id) {
+function getCopyIdFromThirtyMinuteInput(id) {// Not Used
     var currentIteration = document.getElementById("iteration-"+id);
     if (!currentIteration.previousElementSibling.getElementsByTagName('div')[2].classList.contains("hidden")) {
         return id - 0.5;
@@ -207,7 +207,7 @@ function getCopyIdFromThirtyMinuteInput(id) {
 
     return id - 1;
 }
-function getCopyIdFromFifteenMinuteInput(id) {
+function getCopyIdFromFifteenMinuteInput(id) {// Not Used
    return id - 0.5;
 }
 </script>
