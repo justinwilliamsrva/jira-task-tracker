@@ -41,7 +41,7 @@ class Input extends Component
     public function mount()
     {
         $this->task = session('tasks') ?? [];
-        $this->counter = session('counter') ?? ['start' => ltrim(date('H'), '0'), 'end' => (ltrim(date('H'), '0') > 14) ? 12 : 6];
+        $this->counter = session('counter') ?? ['start' => (date('H') == 00 ? date('H') : ltrim(date('H'), '0')), 'end' => (ltrim(date('H'), '0') > 14) ? 12 : 6];
         $this->taskTable = session('taskTable') ?? [];
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
