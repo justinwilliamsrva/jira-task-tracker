@@ -25,8 +25,8 @@
         <div class="container max-w-7xl mx-auto mt-10 space-y-4">
             <h1 class="text-center text-5xl px-4">Jira Task Tracker</h1>
             <div id="change-page" class="ml-2 z-50 lg:relative">
-                <a class="{{ Route::currentRouteName() ==  'input' ? 'hidden' : 'py-2 px-8 bg-blue-200 hover:bg-blue-500'}}" href="{{route('input')}}"><button >Add Time</button></a>
-                <a class="{{ Route::currentRouteName() ==  'output' ? 'hidden' : 'py-2 px-8 bg-green-200 hover:bg-green-500'}}"href="{{route('output')}}"><button>View Time</button></a>
+                <a class="{{ Route::currentRouteName() == 'input' ? 'hidden' : 'py-2 px-8 bg-blue-200 hover:bg-blue-500'}}" href="{{route('input')}}"><button >Add Time</button></a>
+                <a class="{{ Route::currentRouteName() == 'output' ? 'hidden' : 'py-2 px-8 bg-green-200 hover:bg-green-500'}}"href="{{route('output')}}"><button>View Time</button></a>
             </div>
             <div class="">
                {{ $slot }}
