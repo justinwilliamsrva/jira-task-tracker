@@ -76,6 +76,7 @@ class Input extends Component
         $this->taskForCopying = '';
         $this->timeChanger();
         $this->dispatchBrowserEvent('clear');
+        $this->expandedRows = [];
     }
 
     public function updatedTask($value, $key)
@@ -241,7 +242,11 @@ class Input extends Component
 
     public function toggleTasks($taskName)
     {
-        $this->expandedRows = [];
+        $value = $this->expandedRows[$taskName] ?? null; // Save the value for the key $taskName, if it exists
+        $this->expandedRows = []; // Clear the array
+        if ($value !== null) {
+            $this->expandedRows[$taskName] = $value; // Restore the saved value
+        }
         $this->expandedRows[$taskName] = isset($this->expandedRows[$taskName]) ? !$this->expandedRows[$taskName] : true;
     }
 
