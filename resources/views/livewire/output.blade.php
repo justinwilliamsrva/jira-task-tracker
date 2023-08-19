@@ -14,6 +14,7 @@
         </div>
     @endif
     <h1 class="text-center text-2xl">View Time</h1>
+    <div class="py-2 px-4 text-center @if($jiraStatus) bg-green-300 @else bg-red-300 @endif">{{ ($jiraStatus) ? 'Jira is working' : 'Jira is not working' }}</div>
     <h2 class="text-center text-xl">Total Time<span>{{$tasks ? ' - '.$totalTime : '' }}</span></h2>
     <div class="flex flex-col justify-center">
         <h2 class="text-center text-xl">Jira Link</span></h2>

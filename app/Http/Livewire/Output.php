@@ -30,6 +30,7 @@ class Output extends Component
         $this->taskFormat = session('taskFormat') ?? 'task';
         $this->tasks = $this->tasks();
         $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
+        $this->jiraStatus = $this->isJiraWorking();
     }
 
     public function tasks()
@@ -230,5 +231,15 @@ class Output extends Component
         $this->taskFormat = $format;
         session(['taskFormat' => $format]);
         $this->tasks = $this->tasks();
+    }
+
+    function isJiraWorking(){
+        $jiraService = new JiraService();
+        $title = $jiraService->getTitle('DEV-1496');
+        if (!empty($title)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
