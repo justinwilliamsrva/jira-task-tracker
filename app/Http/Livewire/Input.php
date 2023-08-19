@@ -28,6 +28,8 @@ class Input extends Component
 
     protected $jiraService;
 
+    public $expandedRows = [];
+
 
     public function render()
     {
@@ -166,7 +168,10 @@ class Input extends Component
 
     public function copyPasteTask($taskName)
     {
-        $this->task[$this->taskForCopying]['task'] = $taskName;
+        $this->toggleTasks($taskName);
+        if (!empty($this->taskForCopying)) {
+            $this->task[$this->taskForCopying]['task'] = $taskName;
+        }
         $this->save();
     }
 
@@ -182,7 +187,7 @@ class Input extends Component
         });
 
         foreach ($this->task as $task) {
-            if (! empty($task['task'])) {
+            if (!empty($task['task'])) {
                 $this->taskTable[$task['task']]['locked'] = $this->taskTable[$task['task']]['locked'] ?? false;
                 $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? ($this->jiraService->getTitle($task['task']) ?? '');
             }
@@ -219,4 +224,41 @@ class Input extends Component
            $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
         }
     }
+
+    public function getTasksByTaskName($taskName) {
+        $fullTaskArray = [];
+
+        foreach($this->task as $task) {
+            if (isset($task['task']) && $task['task'] == $taskName) {
+                if (isset($task['work']) && !in_array($task['work'], $fullTaskArray)) {
+                    $fullTaskArray[] = $task['work'] ?? '';
+                  }
+            }
+        }
+
+        return $fullTaskArray;
+    }
+
+    public function toggleTasks($taskName)
+    {
+        $this->expandedRows = [];
+        $this->expandedRows[$taskName] = isset($this->expandedRows[$taskName]) ? !$this->expandedRows[$taskName] : true;
+    }
+
+    public function copyWorkName($workName, $taskName) {
+        $this->task[$this->taskForCopying]['work'] = $workName;
+        $this->toggleTasks($taskName);
+    }
+
+    public function buttonColor(){
+
+        $listOfColors = [
+         'red', 'gray', 'blue', 'green', 'yellow',
+        ];
+
+        $color = $listOfColors[array_rand($listOfColors)];
+
+        return 'bg-'.$color.'-200 hover:bg-'.$color.'-500';
+    }
+
 }

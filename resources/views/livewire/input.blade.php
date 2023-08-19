@@ -68,6 +68,21 @@
 </a></td>
                                 <td class="text-left"><input class="w-full border-gray-200" type="text" wire:model.debounce.500ms="taskTitles.{{$taskName}}"/></td>
                             </tr>
+                            @if(isset($expandedRows[$taskName]) && $expandedRows[$taskName] && !empty($this->getTasksByTaskName($taskName)))
+                                <tr>
+                                    <td colspan="3">
+                                        @foreach($this->getTasksByTaskName($taskName) as $workName)
+                                            <button class="{{$this->buttonColor()}} btn border-gray-200 px-2 rounded" wire:click="copyWorkName('{{ $workName }}', '{{ $taskName }}')">{{ $workName }}</button>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                            @elseif(isset($expandedRows[$taskName]) && $expandedRows[$taskName])
+                                <tr>
+                                    <td colspan="3">
+                                        No Tasks
+                                    </td>
+                                </tr>
+                            @endif
                         @empty
                         @endforelse
                     </tbody>
@@ -78,7 +93,7 @@
             @foreach($timeArray as $time)
                 @if(str_contains($time, '00'))
                     <div id="iteration-{{ $loop->iteration }}" x-data="{ open_{{Str::replace('-', '_', Str::slug($time))}}: '{{ !empty($task[Str::replace('00','15',$time)]['task']) }}'}" x-on:clear.window="open_{{Str::replace('-', '_', Str::slug($time))}} = false" class="space-y-2">
-                    <div class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
+                        <div class="bg-blue-400 grid grid-cols-3 gap-y-2 p-2 rounded">
                             <h2 @click="open_{{Str::replace('-', '_', Str::slug($time))}}=!open_{{Str::replace('-', '_', Str::slug($time))}}; $wire.setFifteenMinutes('{{$time}}','00','15')" class=" cursor-pointer col-span-1 p-1 text-center order-1 text-lg">{{ $time }}</h2>
                             <label class="col-span-1 p-1 order-3 text-center">
                                 Logged
