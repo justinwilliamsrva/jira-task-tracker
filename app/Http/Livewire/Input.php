@@ -224,6 +224,7 @@ class Input extends Component
            $this->task[$time]['task'] = $timeSorted[$previousTime]['task'];
            $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
         }
+        $this->save();
     }
 
     public function getTasksByTaskName($taskName) {
@@ -253,6 +254,7 @@ class Input extends Component
     public function copyWorkName($workName, $taskName) {
         $this->task[$this->taskForCopying]['work'] = $workName;
         $this->toggleTasks($taskName);
+        $this->save();
     }
 
     public function buttonColor(){
