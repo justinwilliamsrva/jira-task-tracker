@@ -1,4 +1,4 @@
-    <div class="flex flex-col space-y-6 py-2">
+    <div x-data="{ focusOnInput(id) { document.getElementById(id).select() } }" @focus-on-desc-input.window="focusOnInput($event.detail.id)" class="flex flex-col space-y-6 py-2">
         <h1 class="text-center text-2xl">Add Time</h1>
         <div class="flex flex-col md:flex-row justify-center space-x-0 space-y-4 md:space-x-4 md:space-y-0">
             <div class="flex-1 first-line:flex flex-col justify-center">
@@ -105,7 +105,7 @@
                                     <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button wire:click="copyFromAbove('{{ $time }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ $time }}','desc-{{ $loop->iteration }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="{{ $taskForCopying == $time ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" wire:click="taskToPasteTo('{{$time}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
@@ -122,7 +122,7 @@
                                     <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button wire:click="copyFromAbove('{{ Str::replace('00', '15', $time) }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ Str::replace('00', '15', $time) }}', 'desc-{{ $loop->iteration }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration + 0.5 }}" class="{{ $taskForCopying == Str::replace('00','15',$time) ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('00','15',$time)}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('00','15',$time)}}.work" placeholder="Work Completed"></input>
@@ -142,7 +142,7 @@
                                     <input type="checkbox" wire:model="task.{{$time}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button wire:click="copyFromAbove('{{ $time }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ $time }}', 'desc-{{ $loop->iteration }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration }}" class="{{ $taskForCopying == $time ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{$time}}.task" wire:click="taskToPasteTo('{{$time}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{$time}}.work" placeholder="Work Completed"></input>
@@ -159,7 +159,7 @@
                                     <input type="checkbox" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.fifteen" class="vis-hidden">
                                     <span class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 py-1.5 border border-gray-400 rounded shadow">Fifteen</span>
                                 </label>
-                                <button wire:click="copyFromAbove('{{ Str::replace('30', '45', $time) }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
+                                <button wire:click="copyFromAbove('{{ Str::replace('30', '45', $time) }}', 'desc-{{ $loop->iteration }}')" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-4 border border-gray-400 rounded shadow">Paste<span>&#8595</span></button>
                             </div>
                             <input id="task-{{ $loop->iteration + 0.5 }}" class="{{ $taskForCopying == Str::replace('30','45',$time) ?'bg-yellow-200':'' }} col-span-1 p-1 order-2" type="text" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.task" wire:click="taskToPasteTo('{{Str::replace('30','45',$time)}}')" placeholder="Task #">
                             <input id="desc-{{ $loop->iteration + 0.5 }}" class="col-span-3 p-1 order-4" wire:model.debounce.500ms="task.{{Str::replace('30','45',$time)}}.work" placeholder="Work Completed"></input>

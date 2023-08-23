@@ -202,7 +202,7 @@ class Input extends Component
         $this->timeChanger();
     }
 
-    public function copyFromAbove($time) {
+    public function copyFromAbove($time, $inputId) {
         $timeSorted = $this->task;
         //Sort the tasks by time.
         uksort($timeSorted, function($a, $b){
@@ -225,6 +225,9 @@ class Input extends Component
            $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
         }
         $this->save();
+
+        // Set focus after copy.
+        $this->dispatchBrowserEvent('focus-on-desc-input', ['id' => $inputId]);
     }
 
     public function getTasksByTaskName($taskName) {
