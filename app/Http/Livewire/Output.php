@@ -77,7 +77,7 @@ class Output extends Component
 
                 $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? '', 'fifteen' => $tasks['fifteen'] ?? false];
             } else {
-                if (isset($tasks['work']) && ! empty($tasks['fifteen'])) {
+                if (isset($tasks['work']) && !empty($tasks['fifteen'])) {
                     if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                         $newArray['incomplete'][$tasks['task']]['stats'] += .5;
                     } else {

@@ -30,6 +30,8 @@ class Input extends Component
 
     public $expandedRows = [];
 
+    public $inputId = '';
+
 
     public function render()
     {
@@ -53,6 +55,7 @@ class Input extends Component
 
     public function save()
     {
+        unset($this->task['']);
         session(['tasks' => $this->task, 'counter' => $this->counter, 'taskTable' => $this->taskTable, 'taskTitles' => $this->taskTitles]);
     }
 
@@ -88,17 +91,20 @@ class Input extends Component
         }
         $this->refreshTaskList();
         $this->save();
+        $this->expandedRows = []; // Clear the array
     }
 
     public function updatedTaskTable()
     {
         $this->save();
+        $this->expandedRows = []; // Clear the array
     }
 
     public function updatedTaskTitles()
     {
         $this->refreshTaskList();
         $this->save();
+        $this->expandedRows = []; // Clear the array
     }
 
     public function timeChanger()
@@ -113,21 +119,26 @@ class Input extends Component
             array_push($newTimeArray, Carbon::parse($date->toDateTimeString())->format('g:i A'));
         }
         $this->timeArray = $newTimeArray;
+        $this->expandedRows = []; // Clear the array
     }
 
     public function increment($value)
     {
         $this->counter[$value] += 1;
-
+        $this->incrementEndTimeIfNeeded();
         $this->timeChanger();
         $this->save();
+        $this->expandedRows = []; // Clear the array
+
     }
 
     public function decrement($value)
     {
         $this->counter[$value] -= 1;
+        $this->incrementEndTimeIfNeeded();
         $this->timeChanger();
         $this->save();
+        $this->expandedRows = []; // Clear the array
     }
 
     public function showStart()
@@ -148,6 +159,7 @@ class Input extends Component
         Arr::forget($this->task, $time);
         $this->refreshTaskList();
         $this->save();
+        $this->expandedRows = []; // Clear the array
     }
 
     public function setFifteenMinutes($time, $mainNum, $replaceNum)
@@ -173,12 +185,14 @@ class Input extends Component
         if (!empty($this->taskForCopying)) {
             $this->task[$this->taskForCopying]['task'] = $taskName;
         }
+        $this->dispatchBrowserEvent('focus-on-desc-input', ['id' => $this->inputId]);
         $this->save();
     }
 
-    public function taskToPasteTo($time)
+    public function taskToPasteTo($time, $inputId)
     {
         $this->taskForCopying = $time;
+        $this->inputId = $inputId;
     }
 
     protected function refreshTaskList()
@@ -193,17 +207,21 @@ class Input extends Component
                 $this->taskTitles[$task['task']] = $this->taskTitles[$task['task']] ?? ($this->jiraService->getTitle($task['task']) ?? '');
             }
         }
+        $this->expandedRows = []; // Clear the array
     }
 
     public function getCurrentTime()
     {
         $this->counter['start'] = ltrim(date('H'), '0');
+        $this->incrementEndTimeIfNeeded();
         $this->save();
         $this->timeChanger();
+        $this->expandedRows = []; // Clear the array
     }
 
     public function copyFromAbove($time, $inputId) {
         $timeSorted = $this->task;
+
         //Sort the tasks by time.
         uksort($timeSorted, function($a, $b){
             return strtotime($a) - strtotime($b);
@@ -216,9 +234,10 @@ class Input extends Component
             if (strtotime($key) >= strtotime($time)) {
                 break;
             }
-            $previousTime = $key;
+            if (isset($value['work'])) {
+                $previousTime = $key;
+            }
         }
-
         // Assigned previous task to the task clicked on.
         if ($previousTime !== null) {
            $this->task[$time]['task'] = $timeSorted[$previousTime]['task'];
@@ -228,6 +247,8 @@ class Input extends Component
 
         // Set focus after copy.
         $this->dispatchBrowserEvent('focus-on-desc-input', ['id' => $inputId]);
+        $this->expandedRows = []; // Clear the array
+        $this->expandedRows[$this->task[$time]['task']] = true;
     }
 
     public function getTasksByTaskName($taskName) {
@@ -263,7 +284,7 @@ class Input extends Component
     public function buttonColor(){
 
         $listOfColors = [
-         'red', 'gray', 'blue', 'green', 'yellow',
+         'red', 'purple', 'blue', 'green', 'yellow', 'pink',
         ];
 
         $color = $listOfColors[array_rand($listOfColors)];
@@ -271,4 +292,9 @@ class Input extends Component
         return 'bg-'.$color.'-200 hover:bg-'.$color.'-500';
     }
 
+    public function incrementEndTimeIfNeeded(){
+        if($this->counter['end'] <= ($this->counter['start'] - 12)) {
+            $this->counter['end']++;
+        }
+    }
 }
