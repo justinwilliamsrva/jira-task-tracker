@@ -20,7 +20,6 @@ class JiraService
         $this->atlassian_xsrf_token = config('services.jira_service.atlassian_xsrf_token');
         $this->cloud_session_token = config('services.jira_service.cloud_session_token');
         $this->jira_api_url = config('services.jira_service.jira_api_url');
-
     }
 
     public function getCookie()
@@ -30,7 +29,6 @@ class JiraService
 
     public function logTask(string $taskNumber, array $messages, $timeSpent, string $timeStarted, string $taskFormat)
     {
-
         $comment = $this->formatComment($messages, $taskFormat);
         // $comment = str_replace("'", "\"", $comment);
         // $started = $this->formatTimeStarted($timeStarted);
@@ -55,6 +53,7 @@ class JiraService
 
         return null;
     }
+
     public function getTitle(string $taskNumber)
     {
         try {
@@ -88,33 +87,19 @@ class JiraService
     protected function formatComment($messages, $taskFormat) {
         $comment = "";
 
-        if ($taskFormat == 'task') {
-            foreach($messages as $message => $time) {
-                $comment .= $message." - ".Output::formatTimeBy30($time);
-
-                // Check if the current iteration is not the last one
-                if ($message !== array_key_last($messages)) {
-                    $comment .= "\n";
-                }
+        foreach($messages as $key => $message) {
+            if ($taskFormat == 'task') {
+                $comment .= $message." - ".Output::formatTimeBy30($message);
+            } else {
+                $comment .= $message['time']." - ";
+                $comment .= $message['fifteen'] ? "15:" : "";
+                $comment .= $message['work'];
             }
-
-            return $comment;
-        }
-
-        foreach($messages as $key => $m) {
-            $comment .= $m['time']." - ";
-
-            if ($m['fifteen']) {
-                $comment .= "15:";
-            }
-
-            $comment .= $m['work'];
 
             // Check if the current iteration is not the last one
             if ($key !== array_key_last($messages)) {
                 $comment .= "\n";
             }
-
         }
 
         return $comment;
