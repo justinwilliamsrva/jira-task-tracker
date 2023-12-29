@@ -1,7 +1,7 @@
     <div x-data="{ focusOnInput(id) { document.getElementById(id).select() } }" @focus-on-desc-input.window="focusOnInput($event.detail.id)" class="flex flex-col space-y-6 py-2">
         <h1 class="text-center text-2xl">Add Time</h1>
         <div class="flex flex-col md:flex-row justify-center space-x-0 space-y-4 md:space-x-4 md:space-y-0">
-            <div class="flex-1 first-line:flex flex-col justify-center">
+            <div class="flex-2 first-line:flex flex-col justify-center">
                 <h2 class="text-center text-xl">Time</h2>
                 <div class="flex justify-center space-x-1 max-w-4xl mx-auto">
                     <div class="flex flex-col">
@@ -47,8 +47,8 @@
                 <table class="table-fixed min-w-full p-2">
                     <thead class="text-gray-700 uppercase">
                         <tr class="">
-                            <th class="bg-gray-50 w-[15%] text-left"><button class="w-full uppercase bg-gray-200 px-2 rounded hover:bg-gray-300 border border-gray-200 text-center" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
-                            <th class="bg-gray-50 w-[28%] text-left">Task #</th>
+                            <th class="bg-gray-50 w-[8%] text-left"><button class="w-full uppercase bg-gray-200 px-2 rounded hover:bg-gray-300 border border-gray-200 text-center" wire:click="lockAll()">Lock<span>&#8595</span></button></th>
+                            <th class="bg-gray-50 w-[15%] text-left">Task #</th>
                             <th class="bg-gray-50 text-left">Task Titles</th>
                         </tr>
                     </thead>
@@ -72,7 +72,7 @@
                                 <tr>
                                     <td colspan="3">
                                         @foreach($this->getTasksByTaskName($taskName) as $workName)
-                                            <button class="{{$this->buttonColor()}} btn border-gray-200 px-2 rounded" wire:click="copyWorkName('{{ $workName }}', '{{ $taskName }}')">{{ $workName }}</button>
+                                            <button class="{{$this->buttonColor()}} btn border-gray-200 px-2 rounded" wire:click="copyWorkName('{{ addslashes($workName) }}', '{{ $taskName }}')">{{ $workName }}</button>
                                         @endforeach
                                     </td>
                                 </tr>

@@ -89,7 +89,7 @@ class JiraService
 
         foreach($messages as $key => $message) {
             if ($taskFormat == 'task') {
-                $comment .= $message." - ".Output::formatTimeBy30($message);
+                $comment .= $key." - ".Output::formatTimeBy30($message);
             } else {
                 $comment .= $message['time']." - ";
                 $comment .= $message['fifteen'] ? "15:" : "";

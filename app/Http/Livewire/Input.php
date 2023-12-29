@@ -50,7 +50,6 @@ class Input extends Component
         $this->taskTitles = session('taskTitles') ?? [];
         $this->timeChanger();
         $this->realLink = (session('link') ?? config('services.jira_link') ?? '');
-
     }
 
     public function save()
@@ -281,20 +280,20 @@ class Input extends Component
         $this->save();
     }
 
-    public function buttonColor(){
+public function buttonColor() {
 
-        $listOfColors = [
-         'red', 'purple', 'blue', 'green', 'yellow', 'pink',
-        ];
+    $listOfColors = [
+        'red', 'purple', 'blue', 'green', 'yellow', 'pink','cyan'
+    ];
 
-        $color = $listOfColors[array_rand($listOfColors)];
+    $color = $listOfColors[array_rand($listOfColors)];
 
-        return 'bg-'.$color.'-200 hover:bg-'.$color.'-500';
-    }
+    return 'bg-'.$color.'-200 hover:bg-'.$color.'-500';
+}
 
     public function incrementEndTimeIfNeeded(){
         if($this->counter['end'] <= ($this->counter['start'] - 12)) {
-            $this->counter['end']++;
+            $this->counter['end'] = $this->counter['start'] - 11;
         }
     }
 }
