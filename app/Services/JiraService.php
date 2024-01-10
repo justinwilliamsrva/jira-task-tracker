@@ -5,13 +5,15 @@ namespace App\Services;
 use App\Http\Livewire\Output;
 use Exception;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Contracts\Cache\Repository;
 
 class JiraService
 {
     protected string $ajs_anonymous_id;
+
     protected string $atlassian_xsrf_token;
+
     protected string $cloud_session_token;
+
     protected string $jira_api_url;
 
     public function __construct()
@@ -38,10 +40,10 @@ class JiraService
             $response = Http::withHeaders([
                 'Cookie' => $this->getCookie(),
                 'Accept' => 'application/json',
-            ])->post($this->jira_api_url.$taskNumber.'/worklog',[
-                    "comment" => $comment,
-                    "started" => now()->setTime(now()->hour, now()->minute, 0, 0)->setTimezone('-0400')->format('Y-m-d\TH:i:s.uO'),
-                    "timeSpent" => $timeSpent,
+            ])->post($this->jira_api_url.$taskNumber.'/worklog', [
+                'comment' => $comment,
+                'started' => now()->setTime(now()->hour, now()->minute, 0, 0)->setTimezone('-0400')->format('Y-m-d\TH:i:s.uO'),
+                'timeSpent' => $timeSpent,
             ]);
 
             $response->throw();
@@ -64,7 +66,7 @@ class JiraService
 
             $response->throw();
 
-            $responseBody =  json_decode($response->body(), true);
+            $responseBody = json_decode($response->body(), true);
             $title = $responseBody['fields']['summary'] ? $responseBody['fields']['summary'] : '';
 
             return $title;
@@ -84,15 +86,16 @@ class JiraService
     //     return now()->setTime($hour, $minute, 0, 0)->setTimezone('-0400')->format('Y-m-d\TH:i:s.uO');
     // }
 
-    protected function formatComment($messages, $taskFormat) {
-        $comment = "";
+    protected function formatComment($messages, $taskFormat)
+    {
+        $comment = '';
 
-        foreach($messages as $key => $message) {
+        foreach ($messages as $key => $message) {
             if ($taskFormat == 'task') {
-                $comment .= $key." - ".Output::formatTimeBy30($message);
+                $comment .= $key.' - '.Output::formatTimeBy30($message);
             } else {
-                $comment .= $message['time']." - ";
-                $comment .= $message['fifteen'] ? "15:" : "";
+                $comment .= $message['time'].' - ';
+                $comment .= $message['fifteen'] ? '15:' : '';
                 $comment .= $message['work'];
             }
 

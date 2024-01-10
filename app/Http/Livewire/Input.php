@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Services\JiraService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use App\Services\JiraService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -32,11 +32,11 @@ class Input extends Component
 
     public $inputId = '';
 
-
     public function render()
     {
         return view('livewire.input');
     }
+
     public function boot()
     {
         $this->jiraService = new JiraService();
@@ -181,7 +181,7 @@ class Input extends Component
     public function copyPasteTask($taskName)
     {
         $this->toggleTasks($taskName);
-        if (!empty($this->taskForCopying)) {
+        if (! empty($this->taskForCopying)) {
             $this->task[$this->taskForCopying]['task'] = $taskName;
         }
         $this->dispatchBrowserEvent('focus-on-desc-input', ['id' => $this->inputId]);
@@ -218,11 +218,12 @@ class Input extends Component
         $this->expandedRows = []; // Clear the array
     }
 
-    public function copyFromAbove($time, $inputId) {
+    public function copyFromAbove($time, $inputId)
+    {
         $timeSorted = $this->task;
 
         //Sort the tasks by time.
-        uksort($timeSorted, function($a, $b){
+        uksort($timeSorted, function ($a, $b) {
             return strtotime($a) - strtotime($b);
         });
 
@@ -239,8 +240,8 @@ class Input extends Component
         }
         // Assigned previous task to the task clicked on.
         if ($previousTime !== null) {
-           $this->task[$time]['task'] = $timeSorted[$previousTime]['task'];
-           $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
+            $this->task[$time]['task'] = $timeSorted[$previousTime]['task'];
+            $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
         }
         $this->save();
 
@@ -250,14 +251,15 @@ class Input extends Component
         $this->expandedRows[$this->task[$time]['task']] = true;
     }
 
-    public function getTasksByTaskName($taskName) {
+    public function getTasksByTaskName($taskName)
+    {
         $fullTaskArray = [];
 
-        foreach($this->task as $task) {
+        foreach ($this->task as $task) {
             if (isset($task['task']) && $task['task'] == $taskName) {
-                if (isset($task['work']) && !in_array($task['work'], $fullTaskArray)) {
+                if (isset($task['work']) && ! in_array($task['work'], $fullTaskArray)) {
                     $fullTaskArray[] = $task['work'] ?? '';
-                  }
+                }
             }
         }
 
@@ -271,28 +273,31 @@ class Input extends Component
         if ($value !== null) {
             $this->expandedRows[$taskName] = $value; // Restore the saved value
         }
-        $this->expandedRows[$taskName] = isset($this->expandedRows[$taskName]) ? !$this->expandedRows[$taskName] : true;
+        $this->expandedRows[$taskName] = isset($this->expandedRows[$taskName]) ? ! $this->expandedRows[$taskName] : true;
     }
 
-    public function copyWorkName($workName, $taskName) {
+    public function copyWorkName($workName, $taskName)
+    {
         $this->task[$this->taskForCopying]['work'] = $workName;
         $this->toggleTasks($taskName);
         $this->save();
     }
 
-public function buttonColor() {
+    public function buttonColor()
+    {
 
-    $listOfColors = [
-        'red', 'purple', 'blue', 'green', 'yellow', 'pink','cyan'
-    ];
+        $listOfColors = [
+            'red', 'purple', 'blue', 'green', 'yellow', 'pink', 'cyan',
+        ];
 
-    $color = $listOfColors[array_rand($listOfColors)];
+        $color = $listOfColors[array_rand($listOfColors)];
 
-    return 'bg-'.$color.'-200 hover:bg-'.$color.'-500';
-}
+        return 'bg-'.$color.'-200 hover:bg-'.$color.'-500';
+    }
 
-    public function incrementEndTimeIfNeeded(){
-        if($this->counter['end'] <= ($this->counter['start'] - 12)) {
+    public function incrementEndTimeIfNeeded()
+    {
+        if ($this->counter['end'] <= ($this->counter['start'] - 12)) {
             $this->counter['end'] = $this->counter['start'] - 11;
         }
     }

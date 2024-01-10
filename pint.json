@@ -1,0 +1,11 @@
+{
+    "preset": "psr12",
+    "exclude": [
+       "database/migrations/"
+   ],
+    "rules": {
+        "not_operator_with_successor_space": false,
+        "not_operator_with_space": false,
+        "single_line_after_imports": false
+    }
+}

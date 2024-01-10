@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use App\Services\JiraService;
+use Livewire\Component;
 
 class Output extends Component
 {
@@ -77,7 +77,7 @@ class Output extends Component
 
                 $newArray['completed'][$tasks['task']]['tasks'][] = ['time' => $key, 'work' => $tasks['work'] ?? '', 'fifteen' => $tasks['fifteen'] ?? false];
             } else {
-                if (isset($tasks['work']) && !empty($tasks['fifteen'])) {
+                if (isset($tasks['work']) && ! empty($tasks['fifteen'])) {
                     if (array_key_exists($tasks['task'], $newArray['incomplete'])) {
                         $newArray['incomplete'][$tasks['task']]['stats'] += .5;
                     } else {
@@ -200,7 +200,7 @@ class Output extends Component
         $timeStarted = $this->taskFormat == 'task' ? key($filteredTasks) : $this->tasks['completed'][$key]['tasks'][0]['time'];
 
         $jiraService = new JiraService();
-        $result = $jiraService->logTask($key, $messages, $timeSpent, $timeStarted , $this->taskFormat);
+        $result = $jiraService->logTask($key, $messages, $timeSpent, $timeStarted, $this->taskFormat);
 
         if ($result) {
             session()->flash('message', $key.' logged successfully!');
@@ -237,10 +237,11 @@ class Output extends Component
         $this->tasks = $this->tasks();
     }
 
-    function isJiraWorking(){
+    public function isJiraWorking()
+    {
         $jiraService = new JiraService();
         $title = $jiraService->getTitle('DEV-1496');
-        if (!empty($title)) {
+        if (! empty($title)) {
             return true;
         } else {
             return false;
