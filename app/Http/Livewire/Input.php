@@ -181,7 +181,7 @@ class Input extends Component
     public function copyPasteTask($taskName)
     {
         $this->toggleTasks($taskName);
-        if (! empty($this->taskForCopying)) {
+        if (!empty($this->taskForCopying)) {
             $this->task[$this->taskForCopying]['task'] = $taskName;
         }
         $this->dispatchBrowserEvent('focus-on-desc-input', ['id' => $this->inputId]);
@@ -244,7 +244,7 @@ class Input extends Component
             $this->task[$time]['work'] = $timeSorted[$previousTime]['work'];
         }
         $this->save();
-
+        $this->taskForCopying = $time;
         // Set focus after copy.
         $this->dispatchBrowserEvent('focus-on-desc-input', ['id' => $inputId]);
         $this->expandedRows = []; // Clear the array
